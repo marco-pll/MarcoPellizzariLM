@@ -85,7 +85,11 @@ La riga in cui specificare i percorsi è la seguente:
 Una volta fatto la simulazione può essere lanciata tramite "sbatch simulationsPy.sh" I risultati vengono creati un po' alla volta nella cartella "sim.out", e vanno ad aggiungersi a quelli già presenti provenienti dagli altri modelli.
 
 # SINTETIZZARE I RISULTATI E PRODURRE I GRAFICI #
+I risultati ottenuti sono separati in un grande insieme di oggetti, 2 per ciascun modello e replicazione, separati nelle cartelle "sim.out/models" e "sim.out/results".
 
+Questi devono essere scaricati e salvati da qualche parte. Nella cartella in cui vengono salvati è inoltre necessario creare una cartella aggiuntiva, allo stesso livello, chiamata "synthesis", che andrà a contenere i risultati combinati, sia sotto forma di oggetti (in R) che di grafici.
+
+Le istruzioni per utilizzare gli script che sintetizzano i risultati e producono i grafici sono riportate nel file "README" della cartella "CODICE/sintesiRisultati".
 
 
 
