@@ -101,11 +101,11 @@ In alcune simulazioni è stato stimato il solo gradient boosting, con un numero 
 Il numero di alberi (num.trees) da specificare in questi casi cambia: è comunque indicato come commetto delle funzioni "get_dataset()" per le quali è stato fatto.
 
 ### Simulazioni per NN - Numero di epoche ridotto
-Allo stesso modo, per lanciare le reti neurali con meno epoche, è stato lanciato un differente script, SLURM_NNLightLessEpoche, con un funzionamento però identico a quello di "SLURM_NNLight.py". Può esservi tranquillamente sostituito. La scelta del numero di nodi latenti deve comunque essere fatta, è identica a quella nel caso ottimale.
+Allo stesso modo, per lanciare le reti neurali con meno epoche, è stato lanciato un differente script, "SLURM_NNLightLessEpoche.py", con un funzionamento però identico a quello di "SLURM_NNLight.py". Può esservi tranquillamente sostituito. La scelta del numero di nodi latenti deve comunque essere fatta, è identica a quella nel caso ottimale. Il numero di epoche non è invece da specificare, in quanto è una funzione del numero massimo.
 
 ### Stagionalità
 Nei casi di stagionalità lo script della rete neurale deve essere ulteriormente modificato. È necessario specificare manualmente le variabili da standardizzare. Questo viene fatto tramite la variabile "quant" (righe 37 - 45 di "SLURM_NNLight.py"). Le variabili da standardizzare sono, in questi casi, tutte tranne le variabili "mese dell'anno", di tipo dummy. In un caso ordinario queste verrebbero prese da sole.
-Quindi è necessario specificare quant come lista (quant = ["V1","V2",...,"output.L1",...]). Ogni dataset che include stagionalità utilizza variabili differenti, e quindi va specificato ogni volta. La cosa più semplice è aprire ogni volta le funzioni "get_dataset_stag()" (molto semplici) e guardare che variabili producono. Il loro nome va incluso nella lista di quant. Alcuni esempi sono comunque riportati nel file (.py), in corrispondenza delle righe indicate, e probabilmente considerano tutte le possibilità di queste simulazioni.
+Quindi è necessario specificare quant come lista (quant = ["V1","V2",...,"output.l1",...]). Ogni dataset che include stagionalità utilizza variabili differenti, e quindi va specificato ogni volta. La cosa più semplice è aprire ogni volta le funzioni "get_dataset_stag()" (molto semplici) e guardare che variabili producono. Il loro nome va incluso nella lista di quant. Alcuni esempi sono comunque riportati nel file (.py), in corrispondenza delle righe indicate, e probabilmente considerano tutte le possibilità di queste simulazioni.
 
 
 
