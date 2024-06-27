@@ -289,7 +289,7 @@ save(quantile_error_nn, file =paste0(path,"quantile_error_nn"))
 
 
 
-####### TUTTI I QUANTILI ##
+####### SOLO R2 ##
 #Questa parte sintetizza solamente i valori di qualità iniziale. Decisamente più veloce,
 #se interessa solo questo.
 sim_number=100
