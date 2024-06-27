@@ -19,5 +19,14 @@ Il file produce due oggetti per ciascuna categoria di modello (indicate come 'mo
 
 Vengono prodotti due oggetti per categoria di modello, quindi 8 in totale, che vengono utilizzati dallo script "SLURM_Sim_Plots.R" per produrre i grafici.
 
+### SLURM_Sim_Plots.R
+Questo file può fare più cose:
+- Può produrre un grafico di un dataset simulato. La prima parte è dedicata a ciò, e utilizzarla è piuttosto immediato. Si tratta solo di specificare la funzione "get_dataset()" corretta.
+- Può produrre la rappresentazione grafica dei risultati di "SLURM_Sim_Plots.R". Produce quindi i grafici dell'R^2 predittivo iniziale medio e la combinazione dei grafici di "AI Aging".
+
+
+
+
+
 
 
