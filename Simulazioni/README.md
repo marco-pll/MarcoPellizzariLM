@@ -64,8 +64,6 @@ salvati con estensione ".feather", che permette a Python di leggerli.
 
 La terza consiste nel lanciare lo script e salvare i risultati.
 
-Le prime due sono molto simili a quanto già fatto.
-
 Prima fase, preparazione degli script:
 - Lo script per produrre i risultati è "SLURM_NNLight.py". È necessario individuare la simulazione che si vuole eseguire (dal file "SLURM_DataCreateFUnctionsLight.R".
 - Anche qui è necessario scegliere la configurazione corretta per la rete: le quantità che possono variare, ma che sono in codifica fissa, sono molteplici. "reps" (riga 127), batch_size (riga 168) sono pensate per poter cambiare, ma non viene mai fatto (come il numero di alberi della foresta casuale). Le modifiche principali riguardano il numero di nodi latenti per strato, due possibilità (50 o 200); queste vanno specificate nelle righe 129 e 130, una delle due va scelta. Il secondo parametro più importante è quello di patience (riga 169), di default è 2 (ma in alcuni casi è stato aumentato). Come capire quale utilizzare? I commenti delle funzioni "get_dataset_()" indicano la configurazione utilizzata per la specifica simulazione. Scegliere quella corretta rende i risultati riproducibili. Se non vengono indicate, le scelte sono quelle di default (size = [50,50,50] e patience = 2).
