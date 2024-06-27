@@ -1,0 +1,218 @@
+############################################################################################
+#### Funzioni "get_dataset" all'interno di "SLURM_DataCreateFunctionsLight.R" ##############
+############################################################################################
+
+
+########## ASSENZA DI CONCEPT DRIFT: INDIPENDENZA DALLA COMPONENTE TEMPORALE ####################
+#### SIMULAZIONI CON EFFETTI LINEARI ####
+
+get_dataset_1MidCorr()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative e 30 osservazioni al giorno.
+La simulazione iniziale.
+
+get_dataset_1MidCorr_4var()
+La funzione per simulare i dataset con effetti lineari, 4 variabili esplicative e 30 osservazioni al giorno.
+
+get_dataset_1indip()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative indipendenti e 30 osservazioni al giorno.
+
+get_dataset_1HighCorr()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative maggiormente correlate e 30 osservazioni al giorno.
+
+get_dataset_1MidCorr5obs()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative e 5 osservazioni al giorno.
+
+get_dataset_1MidCorr50obs()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative e 50 osservazioni al giorno.
+
+get_dataset_6_moreNoise()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative, 50 osservazioni al giorno e maggiore componente di errore (intermedia)
+
+get_dataset_6_evenMoreNoise()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative, 50 osservazioni al giorno e maggiore componente di errore (estrema)
+
+get_dataset_6_2_evenMoreCorrelation()
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative estremamente correlate e 30 osservazioni al giorno.
+
+get_dataset_6_3_disturbance
+La funzione per simulare i dataset con effetti lineari, 10 variabili esplicative estremamente correlate, 30 osservazioni al giorno e variabili di disturbo.
+
+#### SIMULAZIONI CON EFFETTI NON LINEARI ####
+get_dataset_3()
+La funzione per simulare i dataset con effetti cubici, 10 variabili esplicative e 30 osservazioni al giorno.
+
+get_dataset_4.3()
+La funzione per simulare i dataset con effetti di interazione, 10 variabili esplicative, 10 interazioni di primo ordine e 30 osservazioni al giorno.
+
+get_dataset_4.3_2obs()
+La funzione per simulare i dataset con effetti di interazione, 10 variabili esplicative, 10 interazioni di primo ordine e 2 osservazioni al giorno.
+
+
+
+########## ASSENZA DI CONCEPT DRIFT: DIPENDENZA DALLA COMPONENTE TEMPORALE ####################
+
+get_dataset_8_AR_moreARmid()
+La funzione per simulare i dataset con effetti lineari, 10 variabili, 30 osservazioni al giorno e processo AR(2).
+
+get_data_8_ARMA_7var()
+La funzione per simulare i dataset con effetti lineari, 7 variabili, 30 osservazioni al giorno e processo ARMA(2,2).
+
+get_dataset_10_SETAR()
+La funzione per simulare i dataset con effetti lineari, 7 variabili, 30 osservazioni al giorno e processo SETAR a due regimi.
+
+get_dataset_11_ARIMA()
+La funzione per simulare i dataset con effetti lineari, 7 variabili, 30 osservazioni al giorno e processo ARIMA(0,1,0).
+
+
+
+
+
+
+
+#################################################     DATA DRIFT      #######################################################
+
+#Prime due simulazioni sul data drift, in cui vengono confrontati tutti i modelli.
+
+
+get_dataset_15_cubeDataDrift()
+La funzione per simulare i primi dataset con data drift e relazioni cubiche. 
+
+get_dataset_15_3_intDataDrift()
+La funzione per simulare i primi dataset con data drift ed effetti di interazione.
+
+
+
+#Le successive sono simulazioni condotte per confrontare solo gradient boosting e reti neurali.
+#Non viene quindi utilizzato il codice "SLURM_SimulationsLight.R", ma "SLURM_SimulationsLightGB.R" (per GB). Sempre lo stesso per le reti neurali.
+
+
+get_dataset_15_3_intFurtherDataDrift_002()
+La funzione per simulare i dataset con data drift ed effetti di interazione, per confrontare GB e NN. La probabilità iniziale della seconda distribuzione è pari a 0.02.
+
+get_dataset_15_3_intFurtherDataDrift_025()
+La funzione per simulare i dataset con data drift ed effetti di interazione, per confrontare GB e NN. La probabilità iniziale della seconda distribuzione è pari a 0.25.
+
+get_dataset_15_3_cubFurtherDataDrift_02()
+La funzione per simulare i dataset con data drift e relazioni cubiche, per confrontare GB e NN. La probabilità iniziale della seconda distribuzione è pari a 0.2.
+
+
+#################################################     REAL CONCEPT DRIFT      #######################################################
+
+#Come prima, quando una simulazione è stata condotta con solo il gradient boosting, è stato utilizzato il file "SLURM_SimulationsLightGB.R"
+
+
+############   CONCEPT DRIFT GRADUALE   #############
+
+get_dataset_16_GradualCD()
+La funzione per simulare concept drift graduale, con effetti lineari, 10 variabili, 30 osservazioni al giorno.
+
+get_dataset_16_GradualCD_2obs()
+La funzione per simulare concept drift graduale, con effetti lineari, 10 variabili, 2 osservazioni al giorno.
+
+get_dataset_16_GradualCD_60var_10obs()
+La funzione per simulare concept drift graduale, con effetti lineari, 60 variabili, 10 osservazioni al giorno.
+
+get_dataset_16_GradualCD_4var()
+La funzione per simulare concept drift graduale, con effetti lineari, 4 variabili, 30 osservazioni al giorno.
+
+get_dataset_16_GradualCD_Interazioni()
+La funzione per simulare concept drift graduale, 8 variabili e 8 interazioni di primo ordine, 30 osservazioni al giorno.
+
+get_dataset_16_GradualCD_Interazioni_5obs()
+La funzione per simulare concept drift graduale, 8 variabili e 8 interazioni di primo ordine, 5 osservazioni al giorno.
+
+get_dataset_16_GradualCD_Cubiche()
+La funzione per simulare concept drift graduale, con effetti cubici, 10 variabili, 30 osservazioni al giorno.
+
+get_dataset_16_GradualCD_Cubiche_5obs()
+La funzione per simulare concept drift graduale, con effetti cubici, 10 variabili, 5 osservazioni al giorno.
+
+
+
+
+
+
+############   CONCEPT DRIFT INCREMENTALE   #############
+
+
+get_dataset_17_IncrementalCD()
+La funzione per simulare concept drift incrementale, con effetti lineari, 10 variabili, 30 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_2obs()
+La funzione per simulare concept drift incrementale, con effetti lineari, 10 variabili, 2 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_60var_10obs()
+La funzione per simulare concept drift incrementale, con effetti lineari, 60 variabili, 10 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_4var()
+La funzione per simulare concept drift incrementale, con effetti lineari, 4 variabili, 30 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_2_4var()
+La funzione per simulare concept drift incrementale, con effetti lineari, 4 variabili, 30 osservazioni al giorno.
+Insieme di coefficienti differente.
+
+get_dataset_17_IncrementalCD_Interazioni()
+La funzione per simulare concept drift incrementale, 8 variabili e 8 interazioni di primo ordine, 30 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_Interazioni_5obs()
+La funzione per simulare concept drift incrementale, 8 variabili e 8 interazioni di primo ordine, 5 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_Cubiche()
+La funzione per simulare concept drift incrementale, con effetti cubici, 10 variabili, 30 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_Cubiche_5obs()
+La funzione per simulare concept drift incrementale, con effetti cubici, 10 variabili, 5 osservazioni al giorno.
+
+get_dataset_17_IncrementalCD_2_Cubiche()
+La funzione per simulare concept drift incrementale, con effetti cubici, 10 variabili, 30 osservazioni al giorno.
+Insieme di coefficienti differente.
+
+get_dataset_17_IncrementalCD_2_Cubiche_5obs
+La funzione per simulare concept drift incrementale, con effetti cubici, 10 variabili, 5 osservazioni al giorno.
+Insieme di coefficienti differente.
+
+
+############   CONCEPT DRIFT RICORRENTE   #############
+
+get_dataset_18_VarImpCD()
+Concept drift ricorrente, ampiezza dell'insieme di stima pari a un anno.
+
+get_dataset_18_VarImpCD_60obs()
+Concept drift ricorrente, ampiezza dell'insieme di stima pari a 90 giorni.
+Per questa seconda simulazione è necessario utilizzare i file "SLURM_SimulationsLight90gg.R" e "SLURM_NNLight90gg.py"
+
+
+
+
+
+############################################    STAGIONALITA'  #####################################################
+
+get_dataset_20_stagAbitMoreSTAG()
+Per simulare i dataset con componente stagionale, mese e giorno dell'anno.
+
+get_dataset_20_stagAbitMoreSTAGwithOnlySLag()
+Per simulare i dataset con componente stagionale, ritardo stagionale.
+
+get_dataset_20_stagAbitMoreSTAGwithOnlyLag12
+Per simulare i dataset con componente stagionale, primi ritardi giornalieri.
+
+get_dataset_20_stagAbitMoreSTAGwithSLag()
+Per simulare i dataset con componente stagionale, mese e giorno dell'anno, e ritardo stagionale.
+
+get_dataset_20_stagAbitMoreSTAGwithLag12()
+Per simulare i dataset con componente stagionale, mese e giorno dell'anno, e primi ritardi giornalieri.
+
+get_dataset_20_stagAbitMoreSTAGwithEverything()
+Per simulare i dataset con componente stagionale, mese e giorno dell'anno, ritardo stagionale e primi ritardi giornalieri.
+
+get_dataset_20_stagAbitMoreSTAGwithEverything_2evenLess()
+Simulazione in cui la componente stagionale è molto meno importante.
+
+get_dataset_20_stagErrore()
+Simulazione in cui la componente stagionale è molto più importante.
+
+get_dataset_20_stagAbitMoreSTAGwithEverythingAndTrend()
+Simulazione con stagionalità e trend.
+
+
+
