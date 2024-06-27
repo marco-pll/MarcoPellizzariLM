@@ -22,10 +22,11 @@ Questo oggetto non può essere utilizzato da solo per valutare la degradazione t
 Gli oggetti di tipo "results" contengono i valori di MSE(dT) calcolati al variare della finestra mobile. L'oggetto è una matrice di dimensione pari a "numero_di_sottoinsiemi_di_stima" X "dT massimo". Ogni riga contiene quindi il tracciato dell'errore (MSE) di una specifico modello, le cui metriche sono riportate nella corrispondente riga dell'oggetto di tipo "models".
 
 Un esempio:
+
 "models.attr.ridge.1" e "results.ridge.1" contengono le informazioni relative al modello ridge, ed ad ogni volta che questo è stato stimato nella prima replicazione. Possono essere combinati per produrre il grafico di AI Aging per il modello ridge sulla prima replicazione. Come?
 Ogni riga di "results.ridge.1" può essere divisa per l'elemento "MSE a t0" della corrispondente riga in "models.attr.ridge.1" per ottenere un tracciato di errore relativo. Avendo a disposizione, alla fine, "numero_di_sottoinsiemi_di_stima" tracciati, questi possono essere combinati, tramite il calcolo dei quartili.
 
-Questo può essere fatto per ogni tipologia di modello. La differenza principale è che per la rete neurale gli oggetti prodotti sono di tipo ".feather", un formato che permette di passare dati tra python ed R.
+Questo può essere fatto per ogni tipologia di modello. La differenza principale è che per la rete neurale gli oggetti prodotti sono di tipo ".feather", un formato che permette di leggere dati sia in Python che in R.
 
 
 
