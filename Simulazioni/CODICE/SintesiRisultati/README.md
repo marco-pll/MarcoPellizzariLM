@@ -4,7 +4,7 @@ I risultati ottenuti sono separati in due cartelle, "models" e "results", allo s
 
 ## SINTETIZZARE I RISULTATI ##
 
-Lo script "SLURM_Post_Sim_Synt.R" crea degli oggetti con la sintesi dei risultati e li salva nella cartella "syntesis".
+Lo script "SLURM_Post_Sim_Synt.R" crea degli oggetti con la sintesi dei risultati e li salva nella cartella "synthesis".
 
 Lo script "SLURM_Sim_Plots" utilizza quei risultati per produrre i grafici contenenti l'R^2 predittivo iniziale e la combinazione dei grafici di "AI Aging".
 
