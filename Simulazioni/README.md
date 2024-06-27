@@ -9,22 +9,22 @@ La cartella "CODICE" contiene invece i file, in R e in Python, per eseguire le s
 - "SLURM_NNLight.py" applica il "test" di degradazione temporale al singolo dataset simulato (in una replicazione), e produce i risultati per la rete neurale.
 
 Questi sono i file fondamentali per eseguire le simulazioni.
-"SLURM_SimulationsLight.R" e "SLURM_NNLight.py" applicano il "test" nella singola replicazione della procedura, e producono degli oggetti, questi sono di due tipi:
-- "models.attr.'modello'.'numero_della_replicazione'" e
+"SLURM_SimulationsLight.R" e "SLURM_NNLight.py" applicano il "test" nella singola replicazione della procedura, e producono due tipi di oggetti:
+- "models.'modello'.'numero_della_replicazione'" e
 - "results.'modello'.'numero_della_replicazione'".
 
 dove 'modello' può indicare uno tra "ridge","rf","gb" o "nn", mentre 'numero_della_replicazione' va da 1 a 100. Per ogni modello, e ogni replicazione della simulazione, vengono quindi prodotti due oggetti, due matrici.
 
-Gli oggetti di tipo "models.attr" contengono alcune informazioni legate alla tipologia di modello associato, e ad ogni volta che questo è stato stimato su un sottoinsieme di stima. L'oggetto è una matrice, di dimensione "numero_di_sottoinsiemi_di_stima" X "numero_di_metriche_monitorate" (cambiano da un modello all'altro).
-Le metriche principali sono però "MSE a t0", che indica l'MSE iniziale del modello, stimato sul dataset di stima, e "R2_pred", che indica il valore di R^2 predittivo iniziale del singolo modello. Le righe sono ordinate: la prima contiene le metriche associate al modello stimato sul primo sottoinsieme di stima, l'ultima riga sull'ultimo.
+Gli oggetti di tipo "models." contengono alcune metriche misurate ogni volta che 'modello' è stato stimato su un sottoinsieme di stima. L'oggetto è una matrice, di dimensione "numero_di_sottoinsiemi_di_stima" X "numero_di_metriche_monitorate" (cambiano da un modello all'altro).
+Le metriche principali sono però "MSE a t0", che indica l'MSE iniziale del modello, stimato sull'insieme di verifica, e "R2_pred", che indica il valore di R^2 predittivo iniziale del singolo modello. Le righe sono ordinate: la prima contiene le metriche associate al modello stimato sul primo sottoinsieme di stima, l'ultima riga sull'ultimo.
 Questo oggetto non può essere utilizzato da solo per valutare la degradazione temporale del modello.
 
-Gli oggetti di tipo "results" contengono i valori di MSE(dT) calcolati al variare della finestra mobile. L'oggetto è una matrice di dimensione pari a "numero_di_sottoinsiemi_di_stima" X "dT massimo". Ogni riga contiene quindi il tracciato dell'errore (MSE) di una specifico modello, le cui metriche sono riportate nella corrispondente riga dell'oggetto di tipo "models".
+Gli oggetti di tipo "results." contengono i valori di MSE(dT) calcolati al variare della finestra mobile. L'oggetto è una matrice di dimensione pari a "numero_di_sottoinsiemi_di_stima" X "dT massimo". Ogni riga contiene quindi il tracciato dell'errore (MSE) di una specifico modello, le cui metriche sono riportate nella corrispondente riga dell'oggetto di tipo "models".
 
 Un esempio:
 
-"models.attr.ridge.1" e "results.ridge.1" contengono le informazioni relative al modello ridge, ed ad ogni volta che questo è stato stimato nella prima replicazione. Possono essere combinati per produrre il grafico di AI Aging per il modello ridge sulla prima replicazione. Come?
-Ogni riga di "results.ridge.1" può essere divisa per l'elemento "MSE a t0" della corrispondente riga in "models.attr.ridge.1" per ottenere un tracciato di errore relativo. Avendo a disposizione, alla fine, "numero_di_sottoinsiemi_di_stima" tracciati, questi possono essere combinati, tramite il calcolo dei quartili.
+"models.ridge.1" e "results.ridge.1" contengono le informazioni relative al modello ridge, ed ad ogni volta che questo è stato stimato nella prima replicazione. Possono essere combinati per produrre il grafico di AI Aging per il modello ridge sulla prima replicazione. Come?
+Ogni riga di "results.ridge.1" può essere divisa per l'elemento "MSE a t0" della corrispondente riga in "models.ridge.1" per ottenere un tracciato di errore relativo. Avendo a disposizione, alla fine, "numero_di_sottoinsiemi_di_stima" tracciati, questi possono essere combinati, tramite il calcolo dei quartili.
 
 Questo può essere fatto per ogni tipologia di modello. La differenza principale è che per la rete neurale gli oggetti prodotti sono di tipo ".feather", un formato che permette di leggere dati sia in Python che in R.
 
