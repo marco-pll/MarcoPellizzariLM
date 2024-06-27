@@ -15,7 +15,7 @@ Lo script "SLURM_qMSE_Plots.R" fa nuovamente una sintesi separata degli oggetti 
 ### SLURM_Post_Sim_Synt
 Il file produce due oggetti per ciascuna categoria di modello (indicate come 'modello', che può assumere i valori ridge, gb, rf e nn):
 - mean_R2_'modello', un vettore contenente l'R^2 predittivo medio in ciascuna replicazione (lunghezza quindi pari a 100, in un caso regolare).
-- quantile_errore_'modello', una lista contente 3 elementi, "first_qt", "median" e "third_qt". Queste sono 3 matrici, di dimensione "numero_di_simulazioni" X "dT massimo". Questi raccolgono i tracciati dei quartili dei grafici di "AI Aging" delle singoe replicazioni. Ciasuna riga della matrice "first_qt" contiene quindi il tracciato del primo quartile della replicazione corrispondente, e in modo analogo gli altri due elementi raccolgono gli altri quartili.
+- quantile_errore_'modello', una lista contenente 3 elementi, "first_qt", "median" e "third_qt". Queste sono 3 matrici, di dimensione "numero_di_simulazioni" X "dT massimo". Questi raccolgono i tracciati dei quartili dei grafici di "AI Aging" delle singoe replicazioni. Ciasuna riga della matrice "first_qt" contiene quindi il tracciato del primo quartile della replicazione corrispondente, e in modo analogo gli altri due elementi raccolgono gli altri quartili.
 
 Vengono prodotti due oggetti per categoria di modello, quindi 8 in totale, che vengono utilizzati dallo script "SLURM_Sim_Plots.R" per produrre i grafici.
 
