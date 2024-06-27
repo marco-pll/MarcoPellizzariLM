@@ -15,7 +15,7 @@ Questi sono i file fondamentali per eseguire le simulazioni.
 
 dove 'modello' può indicare uno tra "ridge","rf","gb" o "nn", mentre 'numero_della_replicazione' va da 1 a 100. Per ogni modello, e ogni replicazione della simulazione, vengono quindi prodotti due oggetti, due matrici.
 
-Gli oggetti di tipo "models.attr" contengono alcune informazioni legate alla tipologia di modello associato, e ad ogni volta che questo è stato stimato su un sottoinsieme di stima. L'oggetto è una matrice, di dimensione "numero_sottoinsiemi_di_stima" X "numero_di_metriche_monitorate" (cambiano da un modello all'altro).
+Gli oggetti di tipo "models.attr" contengono alcune informazioni legate alla tipologia di modello associato, e ad ogni volta che questo è stato stimato su un sottoinsieme di stima. L'oggetto è una matrice, di dimensione "numero_di_sottoinsiemi_di_stima" X "numero_di_metriche_monitorate" (cambiano da un modello all'altro).
 Le metriche principali sono però "MSE a t0", che indica l'MSE iniziale del modello, stimato sul dataset di stima, e "R2_pred", che indica il valore di R^2 predittivo iniziale del singolo modello. Le righe sono ordinate: la prima contiene le metriche associate al modello stimato sul primo sottoinsieme di stima, l'ultima riga sull'ultimo.
 Questo oggetto non può essere utilizzato da solo per valutare la degradazione temporale del modello.
 
