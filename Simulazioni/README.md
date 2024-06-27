@@ -30,7 +30,7 @@ Questo può essere fatto per ogni tipologia di modello. La differenza principale
 
 
 
-###### ESEGUIRE LE SIMULAZIONI ######
+# ESEGUIRE LE SIMULAZIONI #
 Come possono essere utilizzati questi script per produrre i risultati?
 
 La procedura non è semplice, in quanto differisce per la rete neurale e gli altri modelli. Partendo da questi ultimi:
