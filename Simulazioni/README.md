@@ -66,21 +66,21 @@ La terza consiste nel lanciare lo script e salvare i risultati.
 
 Prima fase, preparazione degli script:
 - Lo script per produrre i risultati è "SLURM_NNLight.py". È necessario individuare la simulazione che si vuole eseguire (dal file "SLURM_DataCreateFunctionsLight.R").
-- Anche qui è necessario scegliere la configurazione corretta per la rete: le quantità che possono variare, ma che sono in codifica fissa, sono molteplici. "reps" (riga 127), batch_size (riga 168) sono pensate per poter cambiare, ma non viene mai fatto (come il numero di alberi della foresta casuale). Le modifiche principali riguardano il numero di nodi latenti per strato, due possibilità (50 o 200); queste vanno specificate nelle righe 129 e 130, una delle due va scelta. Il secondo parametro più importante è quello di patience (riga 169), di default è 2 (ma in alcuni casi è stato aumentato). Come capire quale utilizzare? I commenti delle funzioni "get_dataset_()" indicano la configurazione utilizzata per la specifica simulazione. Scegliere quella corretta rende i risultati riproducibili. Se non vengono indicate, le scelte sono quelle di default (size = [50,50,50] e patience = 2).
-- Una volta scelta la simulazione da eseguire e fissate le specifiche per la rete, è necessario collocare i file nella stessa directory utilizzata per gli altri modelli, costruita alla stesso modo. In questa directory, oltre a "SLURM_NNLight.py", è necessario includere i due script "SLURM_DataCreateFunctionsLight.R" e "SLURM_Base_Functions.R". I risultati possono essere salvati in modo analogo nella cartella "sim.out", distinguendo gli oggetti "models" e "results".
+- Anche qui è necessario scegliere la configurazione corretta per la rete: le quantità che possono variare, ma che sono in codifica fissa, sono molteplici. "reps" (riga 127, default = 1), batch_size (riga 168, default = 64) sono pensate per poter cambiare, ma nella pratica non cambiano mai (come il numero di alberi della foresta casuale). Le modifiche principali riguardano il numero di nodi latenti per strato, due possibilità (50 o 200); queste vanno specificate nelle righe 129 e 130, una delle due va scelta (size = [50,50,50] o size = [200,200,200]). Il secondo parametro più importante è quello di patience (riga 169, argomento della funzione "model_nn.fit()"), di default è 2 (ma in alcuni casi è stato aumentato). Come capire quali utilizzare? I commenti delle funzioni "get_dataset_()" indicano la configurazione utilizzata per la specifica simulazione. Scegliere quella corretta rende i risultati riproducibili. Se non vengono indicate, le scelte sono quelle di default (size = [50,50,50] e patience = 2).
+- Una volta scelta la simulazione da eseguire e fissate le specifiche per la rete, è necessario collocare i file nella stessa directory utilizzata per gli altri modelli. In questa directory, oltre a "SLURM_NNLight.py", è necessario includere i due script "SLURM_DataCreateFunctionsLight.R" e "SLURM_Base_Functions.R". I risultati possono essere salvati in modo analogo nella cartella "sim.out", distinguendo gli oggetti "models" e "results".
 
 Una volta conclusi i passaggi è possibile passare alla creazione dei dataset. Gli script coinvolti in questa fare sono 3: "SLURM_DataCreateFunctionsLight.R", "dataset_Feathering.R" (che genera i dataset usando le funzioni del primo file) e "pyDataFeather.sh" (che lancia il secondo script).
 La procedura è la seguente:
 - Scegliere la simulazione da eseguire e prendere la funzione corrispondente dal primo script.
-- in "dataset_Feathering.R" sostituire la funzione alla riga 53.
+- In "dataset_Feathering.R" sostituire la funzione alla riga 53.
 - Creare una cartella "pyData" nella directory di lavoro, in cui salvare i dataset creati.
-- Per lanciare lo script usare il file bash "pyDataFeather.sh" per il quale deve essere specificato il percorso al file del container "MyCustomImage.sif" (container con R).
+- Per lanciare lo script usare il file bash "pyDataFeather.sh", per il quale deve essere specificato il percorso al container "MyCustomImage.sif" (container con R).
 
-Vengono quindi prodotti 100 dataset e salvati nella cartella. Adesso che sono disponibili i dati è possibile lanciare lo script "SLURM_NNLight.py". Questo viene fatto lanciando il file bash "simulationsPy.sh", nel quale è necessario specificare due percorsi:
-- Il primo è ad un file testuale, "env_file", che permette di fissare un seed nascosto che rende le simulazioni riproducibili.
+Vengono quindi prodotti 100 dataset e salvati nella cartella "pyData". Adesso che sono disponibili i dati è possibile lanciare lo script "SLURM_NNLight.py". Questo viene fatto lanciando il file bash "simulationsPy.sh", nel quale è necessario specificare due percorsi:
+- Il primo è ad un file testuale, "env_file", che permette di fissare un seed nascosto ("PYTHONHASHSEED") che rende i risultati riproducibili.
 - Il secondo è al container con Pyhton, "pythonImageCPU.sif".
 La riga in cui specificare i percorsi è la seguente:
-"srun singularity exec --env-file "percorso a env_file" "percorso a pythonImageCPU.sif"
+"srun singularity exec --env-file 'percorso a env_file' 'percorso a pythonImageCPU.sif' python ..."
 
 Una volta fatto la simulazione può essere lanciata tramite "sbatch simulationsPy.sh" I risultati vengono creati un po' alla volta nella cartella "sim.out", e vanno ad aggiungersi a quelli già presenti provenienti dagli altri modelli.
 
