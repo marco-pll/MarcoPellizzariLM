@@ -4,6 +4,7 @@ Gli ambienti possono essere scaricati al seguente link: https://drive.google.com
 
 
 MyCustomImage.sif (.zip al link) è l'ambiente utilizzato per gli script in R.
+
 pythonImageCPU.sif (.zip al link) è l'ambiente utilizzato per gli script in python.
 
 I file bash sono tre:
