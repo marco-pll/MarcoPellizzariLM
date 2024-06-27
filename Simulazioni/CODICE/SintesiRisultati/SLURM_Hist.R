@@ -9,12 +9,13 @@ library(feather)
 
 
 ## Calcolo delle pendenze per ogni simulazione.
-setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out")
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_midCorr")
 
 #E' necessario fissare il numero di replicazioni effettuate nella simulazione da sintetizzare
-#e la distanza massima a cui sono state monitorate le prestazioni (dT = 1006 default)
 sim_number=100
 #sim_number=50
+
+#E' la distanza massima a cui sono state monitorate le prestazioni (dT = 1006 default)
 max_dt = 1006
 #max_dt = 2831   Se sono simulazioni riguardanti la stagionalità.
 
@@ -242,8 +243,10 @@ ggsave(filename="synthesis/dataset1_Hist75th.pdf", plot=q75HistBetween, width=6,
 
 
 
-## Differenze tra ridge e RF.
-setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out")
+## DISTRIBUZIONE DELLE DIFFERENZE TRA LIVELLI MEDI DEL TERZO QUARTILE PER I MODELLI ridge e RF ##
+## Questo produce il grafico riportato nel riassunto dei risultati del terzo capitolo. 
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_midCorr")
+
 RFDiff <- list()
 
 for (sim in 1:sim_number ){
@@ -285,8 +288,10 @@ for (sim in 1:sim_number ){
 
   RFDiff[[sim]] <- modelli
 }
-save(RFDiff, file =paste0("synthesis/simuRFDiff"))
-load("synthesis/simuRFDiff")
+
+#save(RFDiff, file =paste0("synthesis/simuRFDiff"))
+#load("synthesis/simuRFDiff")
+
 RFDiff1 <- as.data.frame(matrix(unlist(RFDiff), byrow =TRUE, ncol=3))
 colnames(RFDiff1) <- colnames(RFDiff[[1]])
 
