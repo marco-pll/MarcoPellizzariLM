@@ -33,15 +33,16 @@ Questo può essere fatto per ogni tipologia di modello. La differenza principale
 # ESEGUIRE LE SIMULAZIONI #
 Come possono essere utilizzati questi script per produrre i risultati?
 
-La procedura non è semplice, in quanto differisce per la rete neurale e gli altri modelli. Partendo da questi ultimi:
+La procedura non è semplice, in quanto differisce per la rete neurale e gli altri modelli. Molte componenti variabili sono inoltre in codifica fissa, e devono essere modificate di volta in volta.
 
-## ridge, rf e gb ##
+## Ridge, Foresta Casuale (rf) e Gradient Boosting (gb) ##
 - Scegliere la simulazione da eseguire. Questo viene fatto scegliendo la funzione appropriata dal file "SLURM_DataCreateFunctionsLight.R". La legenda, che indica cosa ciascuna delle funzioni produce, è riportata nel file "legendaDataset.txt".
-- Scelta la funzione, questa deve essere sostituita nella riga 50 del file "SLURM_SimulationsLight.R", in modo che: data <- get_dataset_scelto(). Questo indica che lo script deve essere eseguito sullo specifico insieme di dati.
-- Una volta scelto il dataset è necessario definire le specifiche per stimare i modelli. Per ridurre i tempi infatti, per ogni dataset, vengono utilizzate configurazioni specifiche per ciascun modello. Per lo stimatore ridge non c'é nulla da fare. Per la foresta casuale è necessario definire la griglia per la regolazione dello split ottimale (dalla riga 327 scegliere un mtry = () appropriato). Per il gradient boosting è necessario indicare il numero massimo di alberi (variabile num.trees, nelle funzioni "tree.num()" e "gb_estimates_par()", che deve assumere lo stesso valore). La scelta è importante, in quanto solo quella corretta permette di riprodurre i risultati. Nel file "SLURM_DataCreateFunctionsLight.R" sono comunque indicate, come commetto alle singole funzioni, le specifiche utilizzate nelle simulazioni, che permettono di riprodurre i risultati.
-- È necessario indicare una cartella in cui salvare gli output. Questa cartella deve contenere le sotto-cartelle "models" e "results", e il suo path va specificato in corrispondenza della variabile "path" (riga 40). Per non modificare nulla è sufficiente creare la cartella "sim.out" nella stessa directory.
+- Scelta la funzione, questa deve essere sostituita nella riga 50 del file "SLURM_SimulationsLight.R", in modo che: data <- get_dataset_scelto(). Permette allo script di caricare i dati corretti. La funzione crea ogni dataset delle replicazioni in modo autonomo, quindi "get_dataset_scelto()" produce il dataset di ciascuna iterazione, di volta in volta.
+- Una volta scelto il dataset è necessario definire le specifiche per stimare i modelli, componenti variabili ma in codifica fissa. Per ridurre i tempi infatti, vengono utilizzate, per ciascuna simulazione, configurazioni specifiche per ciascun modello. Per lo stimatore ridge non c'é nulla da fare. Per la foresta casuale è necessario definire la griglia per la regolazione dello split ottimale (dalla riga 327 scegliere un mtry = () appropriato). Per il gradient boosting è necessario indicare il numero massimo di alberi (variabile num.trees, nelle funzioni "tree.num()" e "gb_estimates_par()", che deve assumere lo stesso valore). La scelta è importante, in quanto solo quella corretta permette di riprodurre i risultati. Nel file "SLURM_DataCreateFunctionsLight.R" sono comunque indicate, come commetto alle singole funzioni (le funzioni "get_dataset_()", le specifiche utilizzate nelle simulazioni, che permettono di riprodurre i risultati.
 - Collocare i 3 file "SLURM_Base_Functions.R", "SLURM_DataCreateFunctionsLight.R" e "SLURM_SimulationsLight.R" nella stessa directory, in Calculus.
-- 
+
+Queste sono le operazioni preliminari per lanciare la simulazione desiderata, e ottenere gli stessi risultati riportati nel lavoro.
+
 
 
 
