@@ -332,166 +332,18 @@ RFvsRIDGEvsGBqtMSEPlot <- ggplot(qtRidgeMedianMinMax, aes(x = dT)) +
 RFvsRIDGEvsGBqtMSEPlot
 
 
-## Plot del terzo quartile, MSE, per una singola replicazione.
-library(RColorBrewer)
-library(ggplot2)
-library(patchwork)
-library(feather)
-
-setwd("D:/shared_directory_VM/simulazioniLight/dataset8_AR_moreARmid")
-sim = 3
-#Prendo la prima simulazione.
-
-if (file.exists(paste0("models/models.ridge.",sim))) {
-  load(file = paste0("models/models.ridge.",sim))
-  load(file =paste0("results/results.ridge.",sim))
-} else {effective_number <- c(effective_number,sim)}
-if (file.exists(paste0("models/models.rf.",sim))) {
-  load(file = paste0("models/models.rf.",sim))
-  load(file =paste0("results/results.rf.",sim))
-} else {effective_number <- c(effective_number,sim)}
-if (file.exists(paste0("models/models.gb.",sim))) {
-  load(file = paste0("models/models.gb.",sim))
-  load(file =paste0("results/results.gb.",sim))
-}  else {effective_number <- c(effective_number,sim)}
-if (file.exists(paste0("models/models.nn.",sim,".feather"))) {
-  models.attr.nn <- read_feather(paste0("models/models.nn.",sim,".feather"))
-  models.attr.nn$`__index_level_0__` <- NULL
-  results.nn <- read_feather(paste0("results/results.nn.",sim,".feather"))
-  results.nn$`__index_level_0__` <- NULL
-} else {effective_number <- c(effective_number,sim)}
 
 
-## Prendo i quantili degli errori assoluti.
-quantile.MSE <- function(results) {
-  
-  res.for.plot <- as.data.frame(t(results))
-  res.for.plot$dt <- as.numeric(gsub("dt: ","",rownames(res.for.plot)))
-  rownames(res.for.plot) <- NULL
-  
-  ## Il dataframe su cui facciamo le modifiche
-  res.scale.for.plot <- res.for.plot
-  
-  max_dt <- nrow(res.scale.for.plot)
-  
-  qt <- matrix(NA, nrow = max_dt, ncol=3)
-  colnames(qt) <- c("q25","q50","q75")
-  rownames(qt) <- 1:max_dt
-  
-  ## Popoliamo la matrice con i quantili
-  for (i in 1:max_dt) {
-    qt[i,] <- quantile(as.numeric(res.scale.for.plot[i,-ncol(res.scale.for.plot)]), probs = c(0.25,0.5,0.75))
-  }
-  
-  return(qt)
-}
-
-ridge.qMSE <- as.data.frame(quantile.MSE(results.ridge))
-rf.qMSE <- as.data.frame(quantile.MSE(results.rf))
-gb.qMSE <- as.data.frame(quantile.MSE(results.gb))
-nn.qMSE <- as.data.frame(quantile.MSE(results.nn))
 
 
-thirdDF <- data.frame(ridge = ridge.qMSE$q75,
-                          rf = rf.qMSE$q75,
-                          gb = gb.qMSE$q75,
-                          nn = nn.qMSE$q75,
-                          dT = 1:length(ridge.qMSE$q75))
-
-
-head(thirdDF)
-lw = 0.7
-
-col <- brewer.pal(9, "Set1")[1:4]
-
-quantile.relMSE <- function(models.attr, results) {
-  
-  ## Dataframed
-  res.for.plot <- as.data.frame(t(results))
-  res.for.plot$dt <- as.numeric(gsub("dt: ","",rownames(res.for.plot)))
-  rownames(res.for.plot) <- NULL
-  
-  ## Togliamo 
-  res.scale.for.plot <- res.for.plot
-  
-  ## Dividiamo gli MSE assoluti per renderli relativi.
-  for (i in 1:nrow(models.attr)) {
-    res.scale.for.plot[,i] <- res.scale.for.plot[,i]/models.attr[i,"MSE a t0"]   ## Dividiamo per MSE a t0
-  }
-  
-  max_dt = ncol(results)
-  ## Calcoliamo i quantili
-  qt <- matrix(NA, nrow = max_dt, ncol = 4)
-  colnames(qt) <- c("q25","q50","q75","dt")
-  rownames(qt) <- 1:max_dt
-  
-  ## Popoliamo la matrice con i quantili
-  for (i in 1:max_dt) {
-    qt[i,] <- c(quantile(as.numeric(res.scale.for.plot[i,-ncol(res.scale.for.plot)]), probs = c(0.25,0.5,0.75)),i)
-  }
-  qt.for.plot <- as.data.frame(qt)
-  
-  return(qt.for.plot)
-}
-
-ridge.relMSE <- as.data.frame(quantile.relMSE(models.attr.ridge,results.ridge))
-rf.relMSE <- as.data.frame(quantile.relMSE(models.attr.rf,results.rf))
-gb.relMSE <- as.data.frame(quantile.relMSE(models.attr.gb,results.gb))
-nn.relMSE <- as.data.frame(quantile.relMSE(as.data.frame(models.attr.nn),as.data.frame(results.nn)))
-
-thirdDFrel <- data.frame(ridge = ridge.relMSE$q75,
-                      rf = rf.relMSE$q75,
-                      gb = gb.relMSE$q75,
-                      nn = nn.relMSE$q75,
-                      dT = 1:length(ridge.relMSE$q75))
-
-
-MSEthird <- ggplot(thirdDF, aes(x = dT)) + 
-  geom_line(stat = "identity", aes(y = ridge, color = "Ridge"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = rf, color = "RF"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = gb, color = "GB"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = nn, color = "NN"), linewidth = lw) +
-  scale_color_manual(
-    values = c("Ridge" = col[1], "RF" = col[2], "GB" = col[3], "NN" = col[4]),
-    labels = c("Ridge", "RF", "GB","NN"),
-    breaks = c("Ridge", "RF", "GB","NN")) + 
-  ylab("") + ggtitle("Terzo quartile MSE") + 
-  theme_bw() + theme_title_median + theme_axis_median + theme_legend_median + 
-  theme(legend.position=c(0.22,0.9), legend.direction = "horizontal") +
-  xlab("dT, giorni dopo la stima")
-MSEthird
-
-MSEthirdRel <- ggplot(thirdDFrel, aes(x = dT)) + 
-  geom_line(stat = "identity", aes(y = ridge, color = "Ridge"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = rf, color = "RF"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = gb, color = "GB"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = nn, color = "NN"), linewidth = lw) +
-  scale_color_manual(
-    values = c("Ridge" = col[1], "RF" = col[2], "GB" = col[3], "NN" = col[4]),
-    labels = c("Ridge", "RF", "GB","NN"),
-    breaks = c("Ridge", "RF", "GB","NN")) + 
-  ylab("") + ggtitle("Terzo quartile e_rel") + 
-  theme_bw() + theme_title_median + theme_axis_median + theme_legend_median + 
-  theme(legend.position=c(0.22,0.9), legend.direction = "horizontal") +
-  xlab("dT, giorni dopo la stima")
-MSEthirdRel
-
-ggsave(filename="dataset8_AR_moreARmid_MSEThird.pdf", plot = MSEthurd,
-       device ="pdf", width=8, height = 4)
-ggsave(filename="dataset8_AR_moreARmid_MSEThirdRel.pdf", plot = MSEthurdRel,
-       device ="pdf", width=8, height = 4)
-
-
-#### GRAFICI DEL TERZO QUARTILE NON RELATIVO ####
-
-## TRACCIATI TERZO QUARTILE, su una singola replicazione. ##
+## TRACCIATI TERZO QUARTILE, su una singola replicazione (model). ##
 setwd("D:/shared_directory_VM/simulazioniLight/dataset20_StagWithTrend")
 
 #Utilizzano la sintesi prodotta inizialmente.
 load("synthesis/MSEqt")
 col <- brewer.pal(9, "Set1")[1:4]
 
-model = 1
+model = 3
 ridge.qMSE <- list(q50 = NA, q75 = NA); rf.qMSE <- list(q50 = NA, q75 = NA); gb.qMSE <- list(q50 = NA, q75 = NA) 
 nn.qMSE <- list(q50 = NA, q75 = NA)
 
@@ -557,37 +409,204 @@ ggsave(filename="data17_incrementalCD_NNvsGBlessT_MSEmedianoSingolo.pdf",
        plot=NNvsGBqtMSEPlot, width=8, height=4, device="pdf")
 
 
-### GBeverything vs GBonlyLag12.
 
-gbEverything
-gbOnlyLag12
 
-qtGBMedianMinMaxEverything <- as.data.frame(t(as.matrix(apply(gbEverything$median,2,function(x)quantile(x,probs=c(0.25,0.75))))))
-colnames(qtGBMedianMinMaxEverything) <- c("q25","q75")
-qtGBMedianMinMaxEverything$dT <- 1:nrow(qtGBMedianMinMaxEverything)
+### SULLA SINGOLA REPLICAZIONE (sim), PERMETTE DI CONFRONTARE I TRACCIATI DEL TERZO QUARTILE DELL'MSE
+### CON IL TERZO QUARTILE DELL'ERRORE RELATIVO.
 
-qtGBMedianMinMaxLag12 <- as.data.frame(t(as.matrix(apply(gbOnlyLag12$median,2,function(x)quantile(x,probs=c(0.25,0.75))))))
-colnames(qtGBMedianMinMaxLag12) <- c("q25","q75")
-qtGBMedianMinMaxLag12$dT <- 1:nrow(qtGBMedianMinMaxLag12)
+# A differenza di quanto fatto sopra, questo non richiede di utilizzare simuHist.
 
-#Plot che mette a confronto.
-col <- brewer.pal(11, "PiYG")[7:11]
+## Plot del terzo quartile, MSE, per una singola replicazione.
+library(RColorBrewer)
+library(ggplot2)
+library(patchwork)
+library(feather)
 
-GBvsGBqtMSEPlot <- ggplot(qtGBMedianMinMaxEverything, aes(x = dT)) + 
-  geom_line(stat = "identity", aes(y = q25, color = "GB tutte"), linewidth = lw) + 
-  geom_line(stat = "identity", aes(y = q75, color = "GB tutte"), linewidth = lw) + 
-  geom_line(data = qtGBMedianMinMaxLag12, aes(x=dT, y = q25, color="GB lag12"), linewidth = lw) +
-  geom_line(data = qtGBMedianMinMaxLag12, aes(x=dT, y = q75, color="GB lag12"), linewidth = lw) + 
+setwd("D:/shared_directory_VM/simulazioniLight/dataset17_IncrementalCD")
+sim = 1    ## Simulazione scelta
+
+lw = 0.7
+col <- brewer.pal(9, "Set1")[1:4]
+
+
+if (file.exists(paste0("models/models.ridge.",sim))) {
+  load(file = paste0("models/models.ridge.",sim))
+  load(file =paste0("results/results.ridge.",sim))
+} else {effective_number <- c(effective_number,sim)}
+if (file.exists(paste0("models/models.rf.",sim))) {
+  load(file = paste0("models/models.rf.",sim))
+  load(file =paste0("results/results.rf.",sim))
+} else {effective_number <- c(effective_number,sim)}
+if (file.exists(paste0("models/models.gb.",sim))) {
+  load(file = paste0("models/models.gb.",sim))
+  load(file =paste0("results/results.gb.",sim))
+}  else {effective_number <- c(effective_number,sim)}
+if (file.exists(paste0("models/models.nn.",sim,".feather"))) {
+  models.attr.nn <- read_feather(paste0("models/models.nn.",sim,".feather"))
+  models.attr.nn$`__index_level_0__` <- NULL
+  results.nn <- read_feather(paste0("results/results.nn.",sim,".feather"))
+  results.nn$`__index_level_0__` <- NULL
+} else {effective_number <- c(effective_number,sim)}
+
+
+## Prendo i quantili degli errori assoluti.
+quantile.MSE <- function(results) {
+  
+  res.for.plot <- as.data.frame(t(results))
+  res.for.plot$dt <- as.numeric(gsub("dt: ","",rownames(res.for.plot)))
+  rownames(res.for.plot) <- NULL
+  
+  ## Il dataframe su cui facciamo le modifiche
+  res.scale.for.plot <- res.for.plot
+  
+  max_dt <- nrow(res.scale.for.plot)
+  
+  qt <- matrix(NA, nrow = max_dt, ncol=3)
+  colnames(qt) <- c("q25","q50","q75")
+  rownames(qt) <- 1:max_dt
+  
+  ## Popoliamo la matrice con i quantili
+  for (i in 1:max_dt) {
+    qt[i,] <- quantile(as.numeric(res.scale.for.plot[i,-ncol(res.scale.for.plot)]), probs = c(0.25,0.5,0.75))
+  }
+  
+  return(qt)
+}
+
+quantile.relMSE <- function(models.attr, results) {
+  
+  ## Dataframed
+  res.for.plot <- as.data.frame(t(results))
+  res.for.plot$dt <- as.numeric(gsub("dt: ","",rownames(res.for.plot)))
+  rownames(res.for.plot) <- NULL
+  
+  ## Togliamo 
+  res.scale.for.plot <- res.for.plot
+  
+  ## Dividiamo gli MSE assoluti per renderli relativi.
+  for (i in 1:nrow(models.attr)) {
+    res.scale.for.plot[,i] <- res.scale.for.plot[,i]/models.attr[i,"MSE a t0"]   ## Dividiamo per MSE a t0
+  }
+  
+  max_dt = ncol(results)
+  ## Calcoliamo i quantili
+  qt <- matrix(NA, nrow = max_dt, ncol = 4)
+  colnames(qt) <- c("q25","q50","q75","dt")
+  rownames(qt) <- 1:max_dt
+  
+  ## Popoliamo la matrice con i quantili
+  for (i in 1:max_dt) {
+    qt[i,] <- c(quantile(as.numeric(res.scale.for.plot[i,-ncol(res.scale.for.plot)]), probs = c(0.25,0.5,0.75)),i)
+  }
+  qt.for.plot <- as.data.frame(qt)
+  
+  return(qt.for.plot)
+}
+
+#Contengono i quartili dell'MSE per ciascun modello, nella simulazione sim.
+ridge.qMSE <- as.data.frame(quantile.MSE(results.ridge))
+rf.qMSE <- as.data.frame(quantile.MSE(results.rf))
+gb.qMSE <- as.data.frame(quantile.MSE(results.gb))
+nn.qMSE <- as.data.frame(quantile.MSE(results.nn))
+
+
+thirdDF <- data.frame(ridge = ridge.qMSE$q75,
+                      rf = rf.qMSE$q75,
+                      gb = gb.qMSE$q75,
+                      nn = nn.qMSE$q75,
+                      dT = 1:length(ridge.qMSE$q75))
+
+## Tracciati dei quartili dell'errore relativo.
+ridge.relMSE <- as.data.frame(quantile.relMSE(models.attr.ridge,results.ridge))
+rf.relMSE <- as.data.frame(quantile.relMSE(models.attr.rf,results.rf))
+gb.relMSE <- as.data.frame(quantile.relMSE(models.attr.gb,results.gb))
+nn.relMSE <- as.data.frame(quantile.relMSE(as.data.frame(models.attr.nn),as.data.frame(results.nn)))
+
+thirdDFrel <- data.frame(ridge = ridge.relMSE$q75,
+                         rf = rf.relMSE$q75,
+                         gb = gb.relMSE$q75,
+                         nn = nn.relMSE$q75,
+                         dT = 1:length(ridge.relMSE$q75))
+
+
+#Grafico del tracciato del terzo quartile dell'MSE.
+MSEthird <- ggplot(thirdDF, aes(x = dT)) + 
+  geom_line(stat = "identity", aes(y = ridge, color = "Ridge"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = rf, color = "RF"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = gb, color = "GB"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = nn, color = "NN"), linewidth = lw) +
   scale_color_manual(
-    values = c("GB tutte" = col[5], "GB lag12" = col[2]),
-    labels = c("GB tutte","GB lag12"),
-    breaks = c("GB tutte","GB lag12")) + theme_bw() + theme_legend_median +
-  theme_title_median + theme_axis_median +
-  theme(legend.position = c(0.25,0.88), legend.direction = "horizontal") +
-  ylab("MSE") +
-  guides(color = guide_legend(title = "Plot1"))
-GBvsGBqtMSEPlot
+    values = c("Ridge" = col[1], "RF" = col[2], "GB" = col[3], "NN" = col[4]),
+    labels = c("Ridge", "RF", "GB","NN"),
+    breaks = c("Ridge", "RF", "GB","NN")) + 
+  ylab("") + ggtitle("Terzo quartile MSE") + 
+  theme_bw() + theme_title_median + theme_axis_median + theme_legend_median + 
+  theme(legend.position=c(0.22,0.9), legend.direction = "horizontal") +
+  xlab("dT, giorni dopo la stima")
+MSEthird
+
+#Grafico del tracciato del terzo quartile dell'errore relativo
+MSEthirdRel <- ggplot(thirdDFrel, aes(x = dT)) + 
+  geom_line(stat = "identity", aes(y = ridge, color = "Ridge"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = rf, color = "RF"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = gb, color = "GB"), linewidth = lw) + 
+  geom_line(stat = "identity", aes(y = nn, color = "NN"), linewidth = lw) +
+  scale_color_manual(
+    values = c("Ridge" = col[1], "RF" = col[2], "GB" = col[3], "NN" = col[4]),
+    labels = c("Ridge", "RF", "GB","NN"),
+    breaks = c("Ridge", "RF", "GB","NN")) + 
+  ylab("") + ggtitle("Terzo quartile e_rel") + 
+  theme_bw() + theme_title_median + theme_axis_median + theme_legend_median + 
+  theme(legend.position=c(0.22,0.9), legend.direction = "horizontal") +
+  xlab("dT, giorni dopo la stima")
+MSEthirdRel
+
+ggsave(filename="dataset8_AR_moreARmid_MSEThird.pdf", plot = MSEthird,
+       device ="pdf", width=8, height = 4)
+ggsave(filename="dataset8_AR_moreARmid_MSEThirdRel.pdf", plot = MSEthirdRel,
+       device ="pdf", width=8, height = 4)
 
 
-ggsave(filename="STAG_GBvsGB_dataCreation.pdf",
-       plot=GBvsGBqtMSEPlot,width=6, height = 3.5, device="pdf")
+
+
+
+
+
+### CONFRONTO GB EVERYTHING E GB LAG12.
+# Non considerare.
+
+# 
+# gbEverything
+# gbOnlyLag12
+# 
+# qtGBMedianMinMaxEverything <- as.data.frame(t(as.matrix(apply(gbEverything$median,2,function(x)quantile(x,probs=c(0.25,0.75))))))
+# colnames(qtGBMedianMinMaxEverything) <- c("q25","q75")
+# qtGBMedianMinMaxEverything$dT <- 1:nrow(qtGBMedianMinMaxEverything)
+# 
+# qtGBMedianMinMaxLag12 <- as.data.frame(t(as.matrix(apply(gbOnlyLag12$median,2,function(x)quantile(x,probs=c(0.25,0.75))))))
+# colnames(qtGBMedianMinMaxLag12) <- c("q25","q75")
+# qtGBMedianMinMaxLag12$dT <- 1:nrow(qtGBMedianMinMaxLag12)
+# 
+# #Plot che mette a confronto.
+# col <- brewer.pal(11, "PiYG")[7:11]
+# 
+# GBvsGBqtMSEPlot <- ggplot(qtGBMedianMinMaxEverything, aes(x = dT)) + 
+#   geom_line(stat = "identity", aes(y = q25, color = "GB tutte"), linewidth = lw) + 
+#   geom_line(stat = "identity", aes(y = q75, color = "GB tutte"), linewidth = lw) + 
+#   geom_line(data = qtGBMedianMinMaxLag12, aes(x=dT, y = q25, color="GB lag12"), linewidth = lw) +
+#   geom_line(data = qtGBMedianMinMaxLag12, aes(x=dT, y = q75, color="GB lag12"), linewidth = lw) + 
+#   scale_color_manual(
+#     values = c("GB tutte" = col[5], "GB lag12" = col[2]),
+#     labels = c("GB tutte","GB lag12"),
+#     breaks = c("GB tutte","GB lag12")) + theme_bw() + theme_legend_median +
+#   theme_title_median + theme_axis_median +
+#   theme(legend.position = c(0.25,0.88), legend.direction = "horizontal") +
+#   ylab("MSE") +
+#   guides(color = guide_legend(title = "Plot1"))
+# GBvsGBqtMSEPlot
+# 
+# 
+# ggsave(filename="STAG_GBvsGB_dataCreation.pdf",
+#        plot=GBvsGBqtMSEPlot,width=6, height = 3.5, device="pdf")
+
+
