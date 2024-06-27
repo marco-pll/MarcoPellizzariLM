@@ -9,12 +9,12 @@
 #   Creare la directory in cui salvare le sintesi 
 
 #Lo script utilizza i risultati di "SLURM_Simulations.R".
-#Il numero di simulazioni condotte va specificato
-#sim_number <- 100
-sim_number=50
+#Il numero di simulazioni condotte va specificato.
+sim_number <- 100
+#sim_number=50
 
-#Caricamento degli output delle simulazioni
-setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out")
+#Directory con gli esiti della simulazione. Allo stesso livello delle cartelle "models" e "results".
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_midCorr")
 
 #Dove mettere gli output finali:
 path <- "synthesis/"
@@ -290,6 +290,8 @@ save(quantile_error_nn, file =paste0(path,"quantile_error_nn"))
 
 
 ####### TUTTI I QUANTILI ##
+#Questa parte sintetizza solamente i valori di qualità iniziale. Decisamente più veloce,
+#se interessa solo questo.
 sim_number=100
 setwd("D:/shared_directory_VM/simulazioniLight/dataset16_GradualCD")
 
@@ -314,10 +316,7 @@ for (i in 1:sim_number) {
   setTxtProgressBar(pb,i)
 }; close(pb)
 
-# Sintetizziamo i quantili degli errori e l'R2 predittivo medio.
-#mean_R2_ridge <- apply(mean_R2_ridge,2,mean)
 mean_R2_ridge <- apply(mean_R2_ridge,1,mean)
-#quantile_error_ridge <- sapply(quantile_error_ridge, function(x) apply(x,2,median))
 
 cat("\nSimulazioni RIDGE: ",sim_eff_number)
 
@@ -342,9 +341,7 @@ for (i in 1:sim_number) {
   setTxtProgressBar(pb,i)
 }; close(pb)
 
-# Sintetizziamo i quantili degli errori e l'R2 predittivo medio.
 mean_R2_rf <- apply(mean_R2_rf,1,mean)
-#quantile_error_rf <- sapply(quantile_error_rf, function(x) apply(x,2,median))
 
 cat("\nSimulazioni RANDOM FOREST: ",sim_eff_number)
 
@@ -369,9 +366,7 @@ for (i in 1:sim_number) {
   setTxtProgressBar(pb,i)
 }; close(pb)
 
-# Sintetizziamo i quantili degli errori e l'R2 predittivo medio.
 mean_R2_gb <- apply(mean_R2_gb,1,mean)
-#quantile_error_gb <- sapply(quantile_error_gb, function(x) apply(x,2,median))
 
 cat("\nSimulazioni GB: ",sim_eff_number)
 
