@@ -9,16 +9,16 @@ library(feather)
 
 
 ## Calcolo delle pendenze per ogni simulazione.
-setwd("D:/shared_directory_VM/simulazioniLight/dataset3_cubiche")
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out")
+
+#E' necessario fissare il numero di replicazioni effettuate nella simulazione da sintetizzare
+#e la distanza massima a cui sono state monitorate le prestazioni (dT = 1006 default)
 sim_number=100
 #sim_number=50
 max_dt = 1006
-#max_dt = 2831
+#max_dt = 2831   Se sono simulazioni riguardanti la stagionalità.
 
 simulations <- list()
-#Conterrà l'escursione del singolo modello in termini assoluti. (La pendenza della mediana).
-#Conterrà la media del terzo quartile per ciascun modello.
-
 
 theme_axis <- theme(
   axis.title.x = element_text(size = 14, family = "serif"),
@@ -135,10 +135,6 @@ for (sim in 1:sim_number ){
 
 effective_number
 
-#Escludo i risultati non pervenuti, solo un caso.
-#simulations[[5]] <- NA
-#simulations[[92]] <- NA
-
 #save(simulations, file =paste0("synthesis/simuHist"))
 load("synthesis/simuHist") #simulations
 
@@ -187,7 +183,8 @@ modelWiseSim <- modelWiseSim %>% group_by(modello) %>% mutate(mEsc = mean(escurs
 
 modelWiseSim <- modelWiseSim %>% group_by(modello) %>% mutate(medianEsc = median(escursione, na.rm=TRUE))
 
-#Escursioni
+#GRAFICO DELLE VARIAZIONI IN ERRORE RELATIVO.
+
 meanVar <- unique(modelWiseSim[, c("mEsc", "modello")])
 medianVar <- unique(modelWiseSim[, c("medianEsc", "modello")])
 
@@ -212,58 +209,7 @@ escHistBetween <- ggplot(modelWiseSim, aes(x=escursione))+
 escHistBetween
 
 
-escHistBetween <- ggplot(modelWiseSim, aes(x=escursione))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..))+
-  facet_grid(modello ~ ., switch = "y") +
-  theme_bw() + theme_title + theme_axis_hist +
-  geom_density(aes(fill = modello), alpha=.4) +
-  scale_fill_manual(values = c("Ridge" = col[1], "RF" = col[2], "GB" = col[3], "NN" = col[4])) + 
-  theme(
-    legend.position = "none",  # Remove legend
-    panel.grid = element_blank(),  # Remove background grid of histograms
-    strip.background = element_rect(fill = "white", color = "black"),  # Remove the boxes around the facet labels
-    #     strip.text.y = element_text(hjust = 0)  # Adjust facet label position
-  ) + 
-  geom_vline(aes(xintercept = mEsc, group = modello), colour = 'red', linewidth = 0.8,
-             linetype = "solid") + 
-  geom_vline(aes(xintercept = medianEsc, group = modello), colour = 'orange', linewidth = 0.8,
-             linetype = "solid") + 
-  xlab("variazione e_rel") +
-  geom_label(data = meanVar, 
-             aes(x = mEsc, y = 0, label = round(mEsc,2)), 
-             vjust = -0.5, size = 4, color = "red", fill = "white") + 
-  geom_label(data = medianVar, 
-             aes(x = medianEsc, y = 2, label = round(medianEsc,2)), 
-             vjust = -0.5, size = 4, color = "orange", fill = "white")
-escHistBetween
-
-
-
-
-
-hist(modelWiseSim$escursione[modelWiseSim$modello == "Ridge"])
-hist(modelWiseSim$escursione[modelWiseSim$modello == "RF"])
-hist(modelWiseSim$escursione[modelWiseSim$modello == "GB"])
-
-escHistWithin <- ggplot(modelWiseSim, aes(x=escursione_rel))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..))+
-  facet_grid(modello ~ .) +
-  theme_bw() + theme_axis + theme_title + theme_axis_hist +
-  geom_density(alpha=.2, fill="#FF6666") +
-  xlab("escursione rel") +
-  geom_vline(aes(xintercept = mEscRel, group = modello), colour = 'blue', linewidth = 0.8,
-             linetype = "dashed")
-escHistWithin
-
-
-escPlot <- escHistBetween + escHistWithin + 
-  plot_layout(guides="collect", ncol=2, nrow=1, byrow=TRUE) &
-  theme(legend.box.background = element_rect(color = "black", linewidth = 1)) +
-  theme(legend.position="bottom")
-escPlot
-
-
-#qt75
+#GRAFICO DEI LIVELLI MEDI DEL TERZO QUARTILE.
 means <- unique(modelWiseSim[, c("mq75", "modello")])
 means$mq75Perc <- paste0(round(means$mq75 - 1,4)*100,"%")
 
@@ -286,23 +232,9 @@ q75HistBetween <- ggplot(modelWiseSim, aes(x=q75))+
              vjust = -0.5, size = 4, color = "red", fill = "white")
 q75HistBetween
 
-q75HistWithin <- ggplot(modelWiseSim, aes(x=q75_rel))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..))+
-  facet_grid(modello ~ .) +
-  theme_bw() + theme_axis + theme_title + theme_axis_hist +
-  geom_density(alpha=.2, fill="#FF6666") +
-  xlab("75esimo perc. rel") +
-  geom_vline(aes(xintercept = mq75Rel, group = modello), colour = 'blue', linewidth = 0.8,
-             linetype = "dashed")
-q75HistWithin
 
-finale <- escHistBetween + escHistWithin + q75HistBetween + q75HistWithin +
-  plot_layout(guides="collect", ncol=2, nrow=2, byrow=TRUE) &
-  theme(legend.box.background = element_rect(color = "black", linewidth = 1))
-finale
-
-ggsave(filename="synthesis/dataset17_IncrementalCD_Interazioni_5obs_VarE_rel.pdf", plot=escHistBetween, width=6, height=4, device="pdf")
-ggsave(filename="synthesis/dataset20_STAGaBitMoreLessWithEverything_hist75th.pdf", plot=q75HistBetween, width=6, height=4, device="pdf")
+ggsave(filename="synthesis/dataset1_Var_eRel.pdf", plot=escHistBetween, width=6, height=4, device="pdf")
+ggsave(filename="synthesis/dataset1_Hist75th.pdf", plot=q75HistBetween, width=6, height=4, device="pdf")
 
 
 
@@ -310,8 +242,8 @@ ggsave(filename="synthesis/dataset20_STAGaBitMoreLessWithEverything_hist75th.pdf
 
 
 
-## Differenze tra ridge e RF, e test?
-setwd("D:/shared_directory_VM/simulazioniLight/dataset4.3_2obs")
+## Differenze tra ridge e RF.
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out")
 RFDiff <- list()
 
 for (sim in 1:sim_number ){
@@ -375,102 +307,6 @@ q75RFvsRidge
 ggsave(filename="synthesis/dataset4.3_2obs_RFvsNN.pdf", plot=q75RFvsRidge, width=6, height=2, device="pdf")
 
 
-
-
-
-
-
-
-## TEST PER VALUTARE SIGNIFICATIVITA' DELLE DIFFERENZE ##
-setwd("D:/shared_directory_VM/simulazioniLight/dataset1_midCorr")
-load("synthesis/simuRFDiff")
-RFDiff1 <- as.data.frame(matrix(unlist(RFDiff), byrow =TRUE, ncol=3))
-colnames(RFDiff1) <- colnames(RFDiff[[1]])
-
-xBar = mean(RFDiff1$Ridge)
-xBar
-n = length(RFDiff1$Ridge)
-S2 = sum((RFDiff1$Ridge - xBar)^2)/(n - 1)
-S2
-Z = xBar/sqrt(S2/n)
-Z
-pnorm(Z, lower.tail = FALSE)
-
-
-
-
-##Escursioni, caso per caso.
-meanVar <- unique(modelWiseSim[, c("mEsc", "modello")])
-head(modelWiseSim)
-
-escHistRidge <- ggplot(modelWiseSim[modelWiseSim$modello == "Ridge",], aes(x=escursione))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..)) +
-  theme_bw() + theme_title + theme_axis_hist +
-  geom_density(fill = col[1], alpha=.4) + 
-  theme(
-    legend.position = "none",  # Remove legend
-    panel.grid = element_blank(),  # Remove background grid of histograms
-    strip.background = element_rect(fill = "white", color = "black"),  # Remove the boxes around the facet labels
-    #     strip.text.y = element_text(hjust = 0)  # Adjust facet label position
-  ) + 
-  geom_vline(aes(xintercept = mEsc), colour = 'red', linewidth = 0.8,
-             linetype = "solid") + 
-  xlab("variazione e_rel")
-escHistRidge
-
-
-escHistRF <- ggplot(modelWiseSim[modelWiseSim$modello == "RF",], aes(x=escursione))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..)) +
-  theme_bw() + theme_title + theme_axis_hist +
-  geom_density(fill = col[2], alpha=.4) + 
-  theme(
-    legend.position = "none",  # Remove legend
-    panel.grid = element_blank(),  # Remove background grid of histograms
-    strip.background = element_rect(fill = "white", color = "black"),  # Remove the boxes around the facet labels
-    #     strip.text.y = element_text(hjust = 0)  # Adjust facet label position
-  ) + 
-  geom_vline(aes(xintercept = mEsc), colour = 'red', linewidth = 0.8,
-             linetype = "solid") + 
-  xlab("variazione e_rel")
-escHistRF
-
-
-escHistGB <- ggplot(modelWiseSim[modelWiseSim$modello == "GB",], aes(x=escursione))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..)) +
-  theme_bw() + theme_title + theme_axis_hist +
-  geom_density(fill = col[3], alpha=.4) + 
-  theme(
-    legend.position = "none",  # Remove legend
-    panel.grid = element_blank(),  # Remove background grid of histograms
-    strip.background = element_rect(fill = "white", color = "black"),  # Remove the boxes around the facet labels
-    #     strip.text.y = element_text(hjust = 0)  # Adjust facet label position
-  ) + 
-  geom_vline(aes(xintercept = mEsc), colour = 'red', linewidth = 0.8,
-             linetype = "solid") + 
-  xlab("variazione e_rel")
-escHistGB
-
-
-escHistNN <- ggplot(modelWiseSim[modelWiseSim$modello == "NN",], aes(x=escursione))+
-  geom_histogram(color="black", fill="white", aes(y = ..density..)) +
-  theme_bw() + theme_title + theme_axis_hist +
-  geom_density(fill = col[4], alpha=.4) + 
-  theme(
-    legend.position = "none",  # Remove legend
-    panel.grid = element_blank(),  # Remove background grid of histograms
-    strip.background = element_rect(fill = "white", color = "black"),  # Remove the boxes around the facet labels
-    #     strip.text.y = element_text(hjust = 0)  # Adjust facet label position
-  ) + 
-  geom_vline(aes(xintercept = mEsc), colour = 'red', linewidth = 0.8,
-             linetype = "solid") + 
-  xlab("variazione e_rel")
-escHistNN
-
-
-finale <- escHistRidge + escHistRF + escHistGB + escHistNN +
-  plot_layout(guides="collect", ncol=1, nrow=4, byrow=TRUE) &
-  theme(legend.box.background = element_rect(color = "black", linewidth = 1))
-finale
 
 
 

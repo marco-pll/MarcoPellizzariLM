@@ -2,20 +2,14 @@
 ######   PLOT DEI RISULTATI DI UNA SIMULAZIONE   ##########################################
 ###########################################################################################
 
-# Gli oggetti necessari sono contenuti nella directory "sim.out/synthesis/dataset*".
-# E' quindi necessario, come prima cosa, scaricarli dal server.
-
-# Comando da linux VM:
-# scp -o ProxyJump=pellizzari@lisa.stat.unipd.it -r pellizzari@calculus.stat.unipd.it:/home/pellizzari/SLURM_Simulazioni/sim.out/synthesis /home/vagrant/shared_directory/
+# Gli oggetti necessari sono contenuti nella directory "sim.out/synthesis".
 
 library(RColorBrewer)
 library(ggplot2)
 library(patchwork)
 
-#### GIORNI -> dT, days after trained.
-#### METTERE IN ITALIANO LE QUANTITA'.
-
 #### PLOT DATA ####
+#Questo permette di creare i grafici dei dataset.
 setwd("C:/Users/User/Documents/AI AGING/SLURM")
 source("SLURM_Base_Functions.R")
 source("SLURM_DataCreateFunctionsLight.R")
@@ -80,14 +74,10 @@ ggsave(filename="dataset20_StagWithTrendplot.pdf", plot = data_plot,
        path = "D:/shared_directory_VM/simulazioniLight/dataset20_StagWithTrend",
        device = "pdf", width = 10, height = 4)
 
-?ggsave
-
-
 
 ##############   PLOT R2   ################################
 
-#setwd("C:/Users/User/Documents/AI AGING/HOSPITAL DATA/F1_sim_out")
-setwd("D:/shared_directory_VM/simulazioniLight/dataset20_STAGaBitMoreLessWithOnlySLag/synthesis")
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out/synthesis")
 
 ## R2 BARPLOT
 
@@ -295,10 +285,12 @@ plot_finale
 
 
 
-#ggsave(filename="data1_midCorr30obs_degen.pdf", plot=plot_finale, width=8, height=7, device="pdf")
-ggsave(filename="dataset20_STAGaBitMoreLessWithOnlySLag_degen.pdf", plot=plot_finale, width=8, height=6, device="pdf")
+
+ggsave(filename="dataset1_degenPlot.pdf",
+       plot=plot_finale, width=8, height=6, device="pdf")
 
 
+## Questo è utilizzato se vogliono essere confrontati singoli plot.
 
 plot_finaleGBvsNN <- plot_gb + plot_nn +
   plot_layout(guides="collect", ncol=2, nrow=1, byrow=TRUE) &
@@ -306,5 +298,5 @@ plot_finaleGBvsNN <- plot_gb + plot_nn +
   theme(legend.position="bottom")
 plot_finaleGBvsNN
 
-ggsave(filename="dataset15_cubeFurherDD_GBvsNN_02_degen.pdf", plot=plot_finaleGBvsNN, width=8, height=4, device="pdf")
+
 ggsave(filename="dataset15_cubeFurherDD_GBvsNN_02_degen.png", plot=plot_finaleGBvsNN, width=8, height=4, device="png")
