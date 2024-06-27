@@ -53,7 +53,23 @@ Per lanciare la simulazione possono essere seguiti i seguenti passaggi:
 La simulazione è stata lanciata! I risultati vengono salvati un po' alla volta nella directory "sim.out".
 
 
+## Rete Neurale (nn) ##
+La procedura per applicare il test di degradazione temporale con la rete neurale è più complessa. Vengono infatti utilizzati degli script in Python (.py).
+I dataset sono però creati utilizzando le funzioni "get_dataset_()", scritte in R.
 
+La procedura si articola quindi in 3 fasi. La prima consiste nel preparare gli script necessari e collocarli nella stessa directory, come fatto in precedenza.
+
+La seconda consiste nel pre-creare i dataset. Non potendo pescarli direttamente come fa lo script "SLURM_SimulationsLight.R", questi devono essere pre-creati e
+salvati con estensione ".feather", che permette a Python di leggerli.
+
+La terza consiste nel lanciare lo script e salvare i risultati.
+
+Le prime due sono molto simili a quanto già fatto.
+
+Prima fase, preparazione degli script:
+- Lo script per produrre i risultati è "SLURMNN_Light.py". È necessario individuare la simulazione che si vuole eseguire (dal file "SLURM_DataCreateFUnctionsLight.R".
+- Anche qui è necessario scegliere la configurazione corretta per la rete: le quantità che possono variare, ma che sono in codifica fissa, sono molteplici. "reps" (riga 127), batch_size (riga 168) sono pensate per poter cambiare, ma non viene mai fatto (come il numero di alberi della foresta casuale). Le modifiche principali riguardano il numero di nodi latenti per strato, due possibilità (50 o 200); queste vanno specificate nelle righe 129 e 130, una delle due va scelta. Il secondo parametro più importante è quello di patience (riga 169), di default è 2 (ma in alcuni casi è stato aumentato). Come capire quale utilizzare? I commenti delle funzioni "get_dataset_()" indicano la configurazione utilizzata per la specifica simulazione. Scegliere quella corretta rende i risultati riproducibili. Se non vengono indicate, le scelte sono quelle di default (size = [50,50,50] e patience = 2).
+- Oltre a queste specifiche deve essere 
 
 
 
