@@ -34,7 +34,9 @@ get_dataset_1MidCorr <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#GB = 1500 alberi, RF = 120, NN = 1 rep, batch size = 64, patience = 2, [200,200,200]
+#GB = 1500 alberi 
+#RF = 120, mtry <- seq(2,10, by = 2)
+#NN = 1 rep, batch size = 64, patience = 2, [200,200,200]
 
 
 get_dataset_1MidCorr_4var <- function(job_index, sim_number) {
@@ -61,7 +63,7 @@ get_dataset_1MidCorr_4var <- function(job_index, sim_number) {
 }
 #RF 120 alberi, mtry = seq(1,4, by = 1).
 #GB 1500 alberi.
-#NN reps = 1, batch size = 64, patience = 2, [50,50,50,50], quant = ["V1",...,"V4"]
+#NN reps = 1, batch size = 64, patience = 2, [50,50,50]
 
 
 
@@ -88,8 +90,9 @@ get_dataset_1indip <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#ridge = 0.87, rf = 0.81, gb = 0.87.
-#GB = 1500 alberi, RF = 120, NN = 1 rep, batch size = 64, patience = 2. [200,200,200]
+#GB = 1500 alberi, 
+#RF = 120, mtry <- seq(2,10, by = 2)
+#NN = 1 rep, batch size = 64, patience = 2, [200,200,200]
 
 
 get_dataset_1HighCorr <- function(job_index, sim_number) {
@@ -116,10 +119,11 @@ get_dataset_1HighCorr <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#più vicine di prima le prestazioni.
-#GB = 1500 alberi, RF=120, NN = 1 rep, batch size = 64, patience = 2.[200,200,200]
+#GB = 1500 alberi,
+#RF = 120, 
+#NN = 1 rep, batch size = 64, patience = 2. [200,200,200]
 
-
+#Le stesse specifiche utilizzate fino a questo punto
 #Utilizza ancora la rete neurale con 200 nodi.
 get_dataset_1MidCorr5obs <- function(job_index, sim_number) {
   
@@ -192,9 +196,9 @@ get_dataset_3 <- function(job_index, sim_number) {
   rm(list = c("output.cub","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = coeff))
 }
-#Utilizza ancora la rete neurale con 200 nodi, patience = 2, batch size = 64.
-#gb = 1500 alberi, rf = 120.
-#Ho mandato la rete neurale con patience 2, batch size = 64, [50,50,50] e [200,200,200]
+#gb = 1500 alberi, 
+#rf = 120. mtry <- seq(2,10, by = 2)
+#Ho mandato la rete neurale con patience 2, batch size = 64, [50,50,50] e [200,200,200].
 
 
 ####DATASET 4.3 MANDATO ###
@@ -226,8 +230,9 @@ get_dataset_4.3 <- function(job_index, sim_number) {
   rm(list = c("interaction_out","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff_lin = coeff_lin, coeff_int = coeff_int))
 }
-# gb utilizza 2000 alberi, rf = 120.
-#rete neurale con patience 2, batch size = 64, [200,200,200]
+#gb utilizza 2000 alberi,
+#rf = 120.  mtry <- seq(2,10, by = 2)
+#NN con patience 2, batch size = 64, [200,200,200].
 
 
 get_dataset_4.3_2obs <- function(job_index, sim_number) {
@@ -256,9 +261,9 @@ get_dataset_4.3_2obs <- function(job_index, sim_number) {
   rm(list = c("interaction_out","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff_lin = coeff_lin, coeff_int = coeff_int))
 }
-#Patience = 4 per la rete neurale.
-#gb = 2000 alberi. size nn = [50,50,50].
-#rf = 120.
+#gb = 2000 alberi.
+#rf = 120, mtry <- seq(2,10, by = 2)
+#nn = [50,50,50]. Patience = 4.
 
 
 #10 variabili. More Noise.
@@ -285,7 +290,9 @@ get_dataset_6_moreNoise <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#Rf = 120, gb = 1500, nn = 64 batch size, [50,50,50], 2 patience.
+#Rf = 120, mtry <- seq(2,10, by = 2)
+#gb = 1500,
+#nn = 64 batch size, [50,50,50], 2 patience.
 
 
 ## PROCESSI STAZIONARI ##
@@ -330,11 +337,10 @@ get_dataset_8_AR_moreARmid <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#rf = 120, gb = 3000, nn = 64 batch size, patience = 2, [50,50,50], quant aggiunto ["outL1","outL2"]
+#rf = 120, mtry <- seq(2,10, by = 2)
+#gb = 3000,
+#nn = 64 batch size, patience = 2, [50,50,50], quant, aggiunto ["outL1","outL2"]
 
-
-#Devo differenziare, in qualche modo, da un processo che catturo bene ed uno che
-#catturo male.
 get_data_8_ARMA_7var <- function(job_index, sim_number) {
   
   set.seed(800)
@@ -374,7 +380,8 @@ get_data_8_ARMA_7var <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#rf = 120 tree, mtry = seq(2,8, by = 2). gb = 1500
+#rf = 120 tree, mtry = seq(2,8, by = 2).
+#gb = 1500
 #nn = 64 batch size, patience = 2, [50,50,50]
 
 
@@ -421,8 +428,8 @@ get_dataset_10_SETAR <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#RF 120 alberi, mtry = seq(2,8, by = 2),
-#GB 1.5k alberi
+#RF 120 alberi, mtry = seq(2,8, by = 2).
+#GB 1.5k alberi.
 ## NN [50,50,50], batch size = 64, patience = 2.
 
 
@@ -466,10 +473,9 @@ get_dataset_11_ARIMA <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#RF 120 alberi, mtry = seq(2,8, by = 2), gb 1.5k alberi.
+#RF 120 alberi, mtry = seq(2,8, by = 2),
+#gb 1.5k alberi.
 ## NN [50,50,50], batch size = 64, patience = 2.
-
-
 
 
 
@@ -514,9 +520,10 @@ get_dataset_15_cubeDataDrift <- function(job_index, sim_number) {
   rm(list = c("output.cub","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = coeff, means = meanToUse))
 }
-# GB 3k alberi, RF mtry <- seq(2,10, by = 2), cores = 4.
+# GB 3k alberi, 
+# RF mtry <- seq(2,10, by = 2), cores = 4.
 # NN [200,200,200]. batch size = 64, patience = 2.
-#50 replicazioni.
+# 50 replicazioni.
 
 get_dataset_15_3_intDataDrift <- function(job_index, sim_number) {
   
@@ -564,7 +571,7 @@ get_dataset_15_3_intDataDrift <- function(job_index, sim_number) {
 ## Rf = 120, mtry <- seq(2,10, by = 2)
 ## GB 3k alberi.
 ## NN [200,200,200], batch size = 64, patience = 2.
-# 50 replicazioni
+## 50 replicazioni.
 
 
 #
@@ -611,7 +618,7 @@ get_dataset_15_3_intFurtherDataDrift_002 <- function(job_index, sim_number) {
   rm(list = c("interaction_out","input","Sigma"))
   return(list(data = data, seeds = seeds, means = meanToUse))
 }
-## GB 3k alberi.
+## GB 3k alberi. Usato "SLURM_SimulationsLightGB.R".
 ## NN [200,200,200], batch size = 64, patience = 2.
 
 get_dataset_15_3_intFurtherDataDrift_025 <- function(job_index, sim_number) {
@@ -657,7 +664,7 @@ get_dataset_15_3_intFurtherDataDrift_025 <- function(job_index, sim_number) {
   rm(list = c("interaction_out","input","Sigma"))
   return(list(data = data, seeds = seeds, means = meanToUse))
 }
-## GB 3k alberi.
+## GB 3k alberi. Usato "SLURM_SimulationsLightGB.R".
 ## NN [200,200,200], batch size = 64, patience = 2.
 
 get_dataset_15_3_cubFurtherDataDrift_02 <- function(job_index, sim_number) {
@@ -698,7 +705,8 @@ get_dataset_15_3_cubFurtherDataDrift_02 <- function(job_index, sim_number) {
   rm(list = c("output.cub","input","Sigma"))
   return(list(data = data, seeds = seeds, means = meanToUse))
 }
-#GB 3k alberi, NN [200,200,200] batch_size = 64, patience = 2.
+# GB 3k alberi. Usato "SLURM_SimulationsLightGB.R".
+# NN [200,200,200], batch_size = 64, patience = 2.
 
 
 #### CONCEPT DRIFT ####
@@ -741,7 +749,10 @@ get_dataset_16_GradualCD <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2)
+#gb = 1500. 
+#nn batch size = 64, patience = 2. [50,50,50].
+#gb = 35 alberi, quando il numero è stato forzatamente ridotto.
 
 get_dataset_16_GradualCD_2obs <- function(job_index, sim_number) {
   
@@ -779,10 +790,11 @@ get_dataset_16_GradualCD_2obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2)
+#gb = 1500,
+#nn batch size = 64, patience = 2. [50,50,50]
 
 
-#Uso questo per valutare la variazione di qualità dei modelli.
 get_dataset_16_GradualCD_60var_10obs <- function(job_index, sim_number) {
   
   set.seed(102)   #Ruotiamo i parametri, seed = 100 di base.
@@ -819,7 +831,9 @@ get_dataset_16_GradualCD_60var_10obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#rf 120 alberi, mtry = seq(5,55, by = 10), gb = 1500 alberi, nn = [50,50,50], patience 2, batch size = 64.
+#rf 120 alberi, mtry = seq(5,55, by = 10), 
+#gb = 1500 alberi, 
+#nn = [50,50,50], patience 2, batch size = 64.
 ## Questo solo 50 replicazioni.
 
 
@@ -859,8 +873,10 @@ get_dataset_17_IncrementalCD <- function(job_index, sim_number) {
   
   #Non c'è correlazione daun giorno al successivo, perciò non aggiungo altre variabili.
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
-#GB reduced = 50trees.
+#rf = 120, mtry <- seq(2,10, by = 2).
+#gb = 1500, 
+#nn batch size = 64, patience = 2. [50,50,50]
+#GB reduced = 50trees. Quando il numero è stato forzatamente ridotto.
 
 
 get_dataset_17_2_IncrementalCD <- function(job_index, sim_number) {
@@ -897,7 +913,9 @@ get_dataset_17_2_IncrementalCD <- function(job_index, sim_number) {
   
   #Non c'è correlazione daun giorno al successivo, perciò non aggiungo altre variabili.
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2).
+#gb = 1500, 
+#nn batch size = 64, patience = 2. [50,50,50]
 
 #Proviamo a vedere che succede riducendo il numero di osservazioni.
 get_dataset_17_IncrementalCD_2obs <- function(job_index, sim_number) {
@@ -934,7 +952,9 @@ get_dataset_17_IncrementalCD_2obs <- function(job_index, sim_number) {
   
   #Non c'è correlazione daun giorno al successivo, perciò non aggiungo altre variabili.
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2).
+#gb = 1500, 
+#nn batch size = 64, patience = 2. [50,50,50]
 
 
 #Ci siamo, questo può andare.
@@ -971,7 +991,9 @@ get_dataset_17_IncrementalCD_60var_10obs <- function(job_index, sim_number) {
   
   #Non c'è correlazione daun giorno al successivo, perciò non aggiungo altre variabili.
 }
-#rf 120 alberi, mtry = seq(5,55, by = 10), gb = 1500 alberi, nn = [50,50,50], patience 2, batch size = 64.
+#rf 120 alberi, mtry = seq(5,55, by = 10), 
+#gb = 1500 alberi, 
+#nn = [50,50,50], patience 2, batch size = 64.
 
 
 #Recurrent drift.
@@ -1017,7 +1039,9 @@ get_dataset_18_VarImpCD <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2).
+#gb = 1500, 
+#nn batch size = 64, patience = 2. [50,50,50]
 
 #Valutare l'effetto del concept drift ricorrente sullo stesso dataset.
 get_dataset_18_VarImpCD_60obs <- function(job_index, sim_number) {
@@ -1061,8 +1085,11 @@ get_dataset_18_VarImpCD_60obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#rf = 120, gb = 1500, nn batch size = 64, patience = 2. [50,50,50]
+#rf = 120, mtry <- seq(2,10, by = 2).
+#gb = 1500,
+#nn batch size = 64, patience = 2. [50,50,50]
 #Solo 50 simulazioni.
+
 
 #### AVVICINARE LE PRESTAZIONI INIZIALI DI RF E GLI ALTRI MODELLI #####
 get_dataset_16_GradualCD_4var <- function(job_index, sim_number) {
@@ -1101,10 +1128,9 @@ get_dataset_16_GradualCD_4var <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#ridge = 0.589, rf = 0.572, gb = 0.581, nn = 0.583.
-# No differenze finalmente.
-#ridge soliti lambda, rf mtry = 1:4, gb = 1500 alberi.
-#NN quant = ["V1",...,"V4"]
+#rf = 120, mtry = seq(1,4, by = 1).
+#gb = 1500. 
+#nn batch size = 64, patience = 2. [50,50,50].
 
 get_dataset_17_IncrementalCD_4var <- function(job_index, sim_number) {
   
@@ -1138,7 +1164,8 @@ get_dataset_17_IncrementalCD_4var <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = coeff, processi = processi))
 }
-#GB 500 alberi. RF mtry = seq(1,4,by=4),
+#GB 500 alberi.
+#RF mtry = seq(1,4,by=4),
 #NN [50,50,50], b_s = 64, patience = 2.
 
 get_dataset_17_IncrementalCD_2_4var <- function(job_index, sim_number) {
@@ -1173,7 +1200,8 @@ get_dataset_17_IncrementalCD_2_4var <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = coeff, processi = processi))
 }
-#GB 500 alberi. RF mtry = seq(1,4,by=4),
+#GB 500 alberi.
+#RF mtry = seq(1,4,by=4),
 #NN [50,50,50], b_s = 64, patience = 2.
 
 
@@ -1241,7 +1269,9 @@ get_dataset_16_GradualCD_Interazioni <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coefficienti)) 
   
 }
-#RF mtry = seq(2,8,by=2), GB = 1500 alberi. size = [200,200,200], patience = 4.
+#RF mtry = seq(2,8,by=2),
+#GB = 1500 alberi.
+#NN = size = [200,200,200], patience = 4.
 
 get_dataset_16_GradualCD_Interazioni_5obs <- function(job_index, sim_number) {
   
@@ -1303,7 +1333,9 @@ get_dataset_16_GradualCD_Interazioni_5obs <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coefficienti)) 
   
 }
-#RF mtry = seq(2,8,by=2), GB = 500 alberi. size = [200,200,200], patience = 4.
+#RF mtry = seq(2,8,by=2),
+#GB = 500 alberi. 
+#NN = size [200,200,200], patience = 4.
 
 ## Concept drift cubiche.
 get_dataset_16_GradualCD_Cubiche <- function(job_index, sim_number) {
@@ -1344,8 +1376,9 @@ get_dataset_16_GradualCD_Cubiche <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#RF 120, mtry = seq(2,10, by = 2), GB = 500trees.
-## NN [200,200,200], batch_size = 64, patience = 4.
+#RF 120, mtry = seq(2,10, by = 2), 
+#GB = 500trees.
+#NN [200,200,200], batch_size = 64, patience = 4.
 
 
 get_dataset_16_GradualCD_Cubiche_5obs <- function(job_index, sim_number) {
@@ -1386,7 +1419,9 @@ get_dataset_16_GradualCD_Cubiche_5obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-#RF mtry = seq(2,10,by=2), gb = 500trees. NN patience = 4, batch_size = 64, [200,200,200].
+#RF mtry = seq(2,10,by=2),
+#gb = 500trees. 
+#NN patience = 4, batch_size = 64, [200,200,200].
 
 
 get_dataset_17_IncrementalCD_Interazioni <- function(job_index, sim_number) {
@@ -1445,8 +1480,9 @@ get_dataset_17_IncrementalCD_Interazioni <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coefficienti)) 
   
 }
-#RF mtry=seq(2,8,by=2), GB 1500 alberi. NN patience = 2, [200,200,200].
-# Gb ridotta alberi = 250.
+#RF mtry=seq(2,8,by=2),
+#GB 1500 alberi. NN patience = 2, [200,200,200].
+# Gb ridotto alberi = 250.
 
 get_dataset_17_IncrementalCD_Interazioni_5obs <- function(job_index, sim_number) {
   
@@ -1504,7 +1540,9 @@ get_dataset_17_IncrementalCD_Interazioni_5obs <- function(job_index, sim_number)
   return(list(data = data, seeds = seeds, coeff = coefficienti)) 
   
 }
-#RF seq(2,10,by=2), GB 1500 alberi. NN patience = 2, [200,200,200].
+#RF seq(2,10,by=2),
+#GB 1500 alberi.
+#NN patience = 2, [200,200,200].
 
 
 get_dataset_17_IncrementalCD_Cubiche <- function(job_index, sim_number) {
@@ -1542,7 +1580,9 @@ get_dataset_17_IncrementalCD_Cubiche <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-# RF seq(2,10,by=2), GB 1500 alberi. NN patience = 2, [200,200,200].
+# RF seq(2,10,by=2), 
+# GB 1500 alberi.
+# NN patience = 2, [200,200,200].
 
 
 get_dataset_17_IncrementalCD_Cubiche_5obs <- function(job_index, sim_number) {
@@ -1580,7 +1620,9 @@ get_dataset_17_IncrementalCD_Cubiche_5obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-# RF seq(2,10,by=2), GB 1500 alberi. NN patience = 10, [200,200,200].
+# RF seq(2,10,by=2),
+# GB 1500 alberi.
+# NN patience = 10, [200,200,200].
 
 
 get_dataset_17_IncrementalCD_2_Cubiche <- function(job_index, sim_number) {
@@ -1618,7 +1660,9 @@ get_dataset_17_IncrementalCD_2_Cubiche <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-# RF seq(2,10,by=2), GB 1500 alberi. NN patience = 2, [200,200,200].
+# RF seq(2,10,by=2),
+# GB 1500 alberi.
+# NN patience = 2, [200,200,200].
 
 get_dataset_17_IncrementalCD_2_Cubiche_5obs <- function(job_index, sim_number) {
   
@@ -1655,7 +1699,9 @@ get_dataset_17_IncrementalCD_2_Cubiche_5obs <- function(job_index, sim_number) {
   rm(list = c("output","input","Sigma"))
   return(list(data = data, seeds = seeds, coeff = out_variabile$coefficienti, processi = processi))
 }
-# RF seq(2,10,by=2), GB 1000 alberi. NN patience = 10, [200,200,200]
+# RF seq(2,10,by=2),
+# GB 1000 alberi.
+# NN patience = 10, [200,200,200]
 
 
 
@@ -1725,7 +1771,7 @@ get_dataset_20_stagErrore <- function(job_index, sim_number) {
 }
 #RF, mtry = seq(2,8,by = 2), alberi = 120.
 #GB 2k alberi
-#NN [200,200,200], solite impostazioni.
+#NN [200,200,200], patience = 4.
 
 
 get_dataset_20_stagAbitMoreSTAG <- function(job_index, sim_number) {
@@ -1779,7 +1825,7 @@ get_dataset_20_stagAbitMoreSTAG <- function(job_index, sim_number) {
   
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
-#NN [200,200,200] patience = 4, batch_size = 64. quant = ["V1","V2","V3","V4","day_of_year"].
+#NN [200,200,200] patience = 4, batch_size = 64.
 #GB 2000 alberi.
 #RF mtry = seq(2,6,by=2).
 
@@ -1840,7 +1886,7 @@ get_dataset_20_stagAbitMoreSTAGwithSLag <- function(job_index, sim_number) {
   
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
-#NN [200,200,200] patience = 4, batch_size = 64. quant = ["V1","V2","V3","V4","day_of_year"].
+#NN [200,200,200] patience = 4, batch_size = 64.
 #GB 2000 alberi.
 #RF mtry = seq(2,6,by=2).
 
@@ -1904,7 +1950,7 @@ get_dataset_20_stagAbitMoreSTAGwithLag12 <- function(job_index, sim_number) {
   
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
-#NN [200,200,200] patience = 4, batch_size = 64. quant = ["V1","V2","V3","V4","day_of_year"].
+#NN [200,200,200] patience = 4, batch_size = 64.
 #GB 2000 alberi.
 #RF mtry = seq(2,6,by=2)
 
@@ -2024,7 +2070,8 @@ get_dataset_20_stagAbitMoreSTAGwithOnlySLag <- function(job_index, sim_number) {
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
 #NN [200,200,200] patience = 4, batch_size = 64. quant = ["V1","V2","V3","V4","output.sl1"]
-#GB 1500, rf mtry=seq(1,4,by=1).
+#GB 1500,
+#rf mtry=seq(1,4,by=1).
 #50 replicazioni.
 
 
@@ -2078,7 +2125,8 @@ get_dataset_20_stagAbitMoreSTAGwithOnlyLag12 <- function(job_index, sim_number) 
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
 #NN [200,200,200] patience = 4, batch_size = 64. quant = ["V1","V2","V3","V4","output.l1","output.l1"]
-#GB 1500, rf mtry=seq(2,6,by=2).
+#GB 1500,
+#rf mtry=seq(2,6,by=2).
 
 
 
@@ -2146,7 +2194,9 @@ get_dataset_20_stagAbitMoreSTAGwithEverything_2evenLess <- function(job_index, s
   
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
-#RF seq(2,6, by = 2), Gb = 1500 alberi. NN [200,200,200] patience = 4.
+#RF seq(2,6, by = 2),
+#Gb = 1500 alberi.
+#NN [200,200,200] patience = 4.
 
 
 get_dataset_20_stagAbitMoreSTAGwithEverythingAndTrend <- function(job_index, sim_number) {
@@ -2216,7 +2266,9 @@ get_dataset_20_stagAbitMoreSTAGwithEverythingAndTrend <- function(job_index, sim
   
   return(list(data=data, seeds=seeds, coeff=coeff_lin))
 }
-#RF seq(2,8,by = 2), Gb = 1500 alberi. NN [200,200,200] patience = 4.
+#RF seq(2,8,by = 2),
+#Gb = 1500 alberi.
+#NN [200,200,200] patience = 4.
 
 ## CASI AGGIUNTIVI ##
 
@@ -2244,7 +2296,9 @@ get_dataset_6_evenMoreNoise <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#Rf = 120, mtry = seq(2,10,by = 2), gb = 500, nn = 64 batch size, [50,50,50], 2 patience.
+#Rf = 120, mtry = seq(2,10,by = 2),
+#gb = 500,
+#nn = 64 batch size, [50,50,50], 2 patience.
 
 #Più correlazione
 get_dataset_6_2_evenMoreCorrelation <- function(job_index, sim_number) {
@@ -2270,7 +2324,8 @@ get_dataset_6_2_evenMoreCorrelation <- function(job_index, sim_number) {
   
 }
 #Rf = 120, mtry = seq(2,10,by = 2)
-#GB 1500, NN [50,50,50], batch_size = 64, patience = 2.
+#GB 1500,
+#NN [50,50,50], batch_size = 64, patience = 2.
 
 #Variabili di disturbo
 get_dataset_6_3_disturbance <- function(job_index, sim_number) {
@@ -2298,7 +2353,9 @@ get_dataset_6_3_disturbance <- function(job_index, sim_number) {
   return(list(data = data, seeds = seeds, coeff = coeff))
   
 }
-#RF mtry = seq(2,10, by = 2), GB = 1500, NN [50,50,50], batch_size = 64, patience = 2.
+#RF mtry = seq(2,10, by = 2),
+#GB = 1500,
+#NN [50,50,50], batch_size = 64, patience = 2.
 
 
 
