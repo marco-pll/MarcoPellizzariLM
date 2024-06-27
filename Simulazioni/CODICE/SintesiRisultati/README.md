@@ -37,6 +37,8 @@ La prima parte dello script permette il calcolo degli andamenti degli MSE median
 
 La seconda parte dello script permette di il calcolo degli andamenti del terzo quartile dell'MSE. Perché funzioni è necessario mandare le librerie e le variabili iniziali: è pensato per andare subito dopo alla prima parte.
 
+Queste prime due parti utilizzano i valori dell'R^2 predittivo iniziale. Lo script può quindi essere utilizzato solo dopo aver utilizzato anche "SLURM_Post_Sim_Synt.R".
+
 La terza parte permette di selezionare una specifica replicazione, e confrontare i tracciati dell'MSE mediano, per i diversi modelli, e del terzo quartile dell'MSE.
 
 
