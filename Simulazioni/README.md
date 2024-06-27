@@ -39,9 +39,19 @@ La procedura non è semplice, in quanto differisce per la rete neurale e gli alt
 - Scegliere la simulazione da eseguire. Questo viene fatto scegliendo la funzione appropriata dal file "SLURM_DataCreateFunctionsLight.R". La legenda, che indica cosa ciascuna delle funzioni produce, è riportata nel file "legendaDataset.txt".
 - Scelta la funzione, questa deve essere sostituita nella riga 50 del file "SLURM_SimulationsLight.R", in modo che: data <- get_dataset_scelto(). Permette allo script di caricare i dati corretti. La funzione crea ogni dataset delle replicazioni in modo autonomo, quindi "get_dataset_scelto()" produce il dataset di ciascuna iterazione, di volta in volta.
 - Una volta scelto il dataset è necessario definire le specifiche per stimare i modelli, componenti variabili ma in codifica fissa. Per ridurre i tempi infatti, vengono utilizzate, per ciascuna simulazione, configurazioni specifiche per ciascun modello. Per lo stimatore ridge non c'é nulla da fare. Per la foresta casuale è necessario definire la griglia per la regolazione dello split ottimale (dalla riga 327 scegliere un mtry = () appropriato). Per il gradient boosting è necessario indicare il numero massimo di alberi (variabile num.trees, nelle funzioni "tree.num()" e "gb_estimates_par()", che deve assumere lo stesso valore). La scelta è importante, in quanto solo quella corretta permette di riprodurre i risultati. Nel file "SLURM_DataCreateFunctionsLight.R" sono comunque indicate, come commetto alle singole funzioni (le funzioni "get_dataset_()", le specifiche utilizzate nelle simulazioni, che permettono di riprodurre i risultati.
-- Collocare i 3 file "SLURM_Base_Functions.R", "SLURM_DataCreateFunctionsLight.R" e "SLURM_SimulationsLight.R" nella stessa directory, in Calculus.
+- Collocare i 3 file "SLURM_Base_Functions.R", "SLURM_DataCreateFunctionsLight.R" e "SLURM_SimulationsLight.R" nella stessa directory, in Calculus. Le funzioni dei primi due vengono caricate dal terzo script quando viene lanciato.
+- Nella stessa directory creare una cartella per salvare gli output (i percorsi sono in codifica fissa). Creare una cartella "sim.out", contenente due distinte sottocartelle, "models" e "results".
 
 Queste sono le operazioni preliminari per lanciare la simulazione desiderata, e ottenere gli stessi risultati riportati nel lavoro.
+
+Per lanciare la simulazione possono essere seguiti i seguenti passaggi:
+- Prendere il file bash (.sh) "simulations.sh", disponibile nella cartella "CALCULUS". È necessario modificare i percorsi in cui fare il print dell'esito della procedura, un'operazione da poco.
+- Specificare il percorso dove pescare il container ("MyCustomImage.sif"), disponibile nella cartella "CALCULUS". Modificare il percorso all'interno del file bash perché lo trovi correttamente (nella riga di "srun singularity exec: 'percorso container'")  
+- Modificare il comando, nel file bash, "##SBATCH --array=1-100%2", sostituendo a 100 un altro valore, permette di cambiare il numero di replicazioni eseguite. Il numero massimo è comunque 100.
+- Lanciare il file bash, nella directory in cui sono presenti gli script ".R", tramite "sbatch simulations.sh"
+
+La simulazione è stata lanciata! I risultati vengono salvati un po' alla volta nella directory "sim.out".
+
 
 
 
