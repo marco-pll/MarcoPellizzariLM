@@ -2,6 +2,7 @@
 #### Funzioni "get_dataset" all'interno di "SLURM_DataCreateFunctionsLight.R" ##############
 ############################################################################################
 
+Le funzioni accettano sempre due argomenti, "job_index", l'indice della replicazione, e "sim_number", sempre uguale a 100. Questo secondo valore non deve mai essere modificato. Gli argomenti sono sempre gli stessi.
 
 ########## ASSENZA DI CONCEPT DRIFT: INDIPENDENZA DALLA COMPONENTE TEMPORALE ####################
 #### SIMULAZIONI CON EFFETTI LINEARI ####
