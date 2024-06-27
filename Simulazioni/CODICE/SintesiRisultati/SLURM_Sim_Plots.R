@@ -75,9 +75,11 @@ ggsave(filename="dataset20_StagWithTrendplot.pdf", plot = data_plot,
        device = "pdf", width = 10, height = 4)
 
 
+
+
 ##############   PLOT R2   ################################
 
-setwd("D:/shared_directory_VM/simulazioniLight/dataset1_sim.out/synthesis")
+setwd("D:/shared_directory_VM/simulazioniLight/dataset1_midCorr/synthesis")
 
 ## R2 BARPLOT
 
@@ -179,7 +181,7 @@ plot_ridge <- ggplot(ridge_for_plot, aes(x = Days)) +
   scale_color_manual(
     values = c("25th" = col[2], "50th" = col[1], "75th" = col[3]),
     labels = c("25esimo percentile", "mediana", "75esimo percentile"))+
-  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
+#  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
   #  ylim(0.9,1.1) + 
   ggtitle("RIDGE") +
   ylab("e_rel") + xlab("dT, giorni dopo la stima")
@@ -208,7 +210,7 @@ plot_rf <- ggplot(rf_for_plot, aes(x = Days)) +
   scale_color_manual(
     values = c("25th" = col[2], "50th" = col[1], "75th" = col[3]),
     labels = c("25esimo percentile", "mediana", "75esimo percentile")) +
-  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
+#  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
   #  ylim(0.9,1.1) + 
   ggtitle("RF") +
   ylab("e_rel") + xlab("dT, giorni dopo la stima")
@@ -235,7 +237,7 @@ plot_gb <- ggplot(gb_for_plot, aes(x = Days)) +
   scale_color_manual(
     values = c("25th" = col[2], "50th" = col[1], "75th" = col[3]),
     labels = c("25esimo percentile", "mediana", "75esimo percentile")) +
-  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
+#  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
   ggtitle("GB") +
   ylab("e_rel") + xlab("dT, giorni dopo la stima")
 
@@ -261,7 +263,7 @@ plot_nn <- ggplot(nn_for_plot, aes(x = Days)) +
   scale_color_manual(
     values = c("25th" = col[2], "50th" = col[1], "75th" = col[3]),
     labels = c("25esimo percentile", "mediana", "75esimo percentile")) +
-  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
+#  scale_x_continuous(breaks = c(0,1000,2000,2800)) + 
   #  ylim(0.9,1.1) + 
   ggtitle("NN") +
   ylab("e_rel") + xlab("dT, giorni dopo la stima") + ylim(0.8,1.2)
