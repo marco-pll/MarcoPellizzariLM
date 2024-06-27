@@ -9,7 +9,9 @@ La cartella "CODICE" contiene invece i file, in R e in Python, per eseguire le s
 - "SLURM_NNLight.py" applica il "test" di degradazione temporale al singolo dataset simulato (in una replicazione), e produce i risultati per la rete neurale.
 
 Questi sono i file fondamentali per eseguire le simulazioni.
-"SLURM_SimulationsLight.R" e "SLURM_NNLight.py" applicano il "test" nella singola replicazione della procedura, e producono degli oggetti: questi sono di due tipi, "models.attr.'modello'.'numero_della_replicazione'" e "results.'modello'.'numero_della_replicazione'".
+"SLURM_SimulationsLight.R" e "SLURM_NNLight.py" applicano il "test" nella singola replicazione della procedura, e producono degli oggetti, questi sono di due tipi:
+- "models.attr.'modello'.'numero_della_replicazione'" e
+- "results.'modello'.'numero_della_replicazione'".
 
 dove 'modello' può indicare uno tra "ridge","rf","gb" o "nn", mentre 'numero_della_replicazione' va da 1 a 100. Per ogni modello, e ogni replicazione della simulazione, vengono quindi prodotti due oggetti, due matrici.
 
