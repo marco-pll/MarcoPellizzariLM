@@ -1,6 +1,8 @@
 Questa cartella contiene i file bash per inviare i job su calculus.
 
 Gli ambienti possono essere scaricati al seguente link: https://drive.google.com/drive/folders/1dTyJe9gGcfhoZnxeYudhjmx8FamKJ9LS?usp=drive_link
+
+
 MyCustomImage.sif (.zip al link) è l'ambiente utilizzato per gli script in R.
 pythonImageCPU.sif (.zip al link) è l'ambiente utilizzato per gli script in python.
 
