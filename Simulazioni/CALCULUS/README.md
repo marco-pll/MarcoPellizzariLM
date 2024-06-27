@@ -11,3 +11,5 @@ I file bash sono tre:
 - simulations.sh, utilizzato per lanciare lo script "SLURM_SimulationsLight.R".
 - simulationsPy.sh, utilizzato per lanciare lo script "SLURM_NNLight.py".
 - pyDataFeather.sh, utilizzato per lanciare lo script "dataset_Feathering.R".
+
+Il file "env_file" è un file testuale per rendere i risultati delle reti neurali riproducibili. Permette di fissare la variabile di environment "PYTHONHASHSEED".
