@@ -36,10 +36,10 @@ data = feather.read_dataframe(dataPath + "/dataset" + str(array_task) + ".feathe
 #Variabili quantitativa + funzione per standardizzare le colonne.
 #quant = ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10"]
 #quant = ["V1","V2","V3","V4"]
-#quant = ["V" + str(item) for item in range(1, data.shape[1] - 1)]
+quant = ["V" + str(item) for item in range(1, data.shape[1] - 1)]
 #quant = ["V1","V2","V3","V4","V5","V6","V7","outL1"]
 #quant = ["V1","V2","V3","V4","V5","V6","V7","outL1","outL2"]
-quant = ["V1","V2","V3","V4","day_of_year","output.l1","output.l2","output.sl1"]
+#quant = ["V1","V2","V3","V4","day_of_year","output.l1","output.l2","output.sl1"]
 #quant = ["V1","V2","V3","V4","day_of_year","output.sl1"]
 #quant = ["V1","V2","V3","V4","day_of_year","output.l1","output.l2"]
 #quant = ["V1","V2","V3","V4","output.l1","output.l2"]
@@ -166,7 +166,7 @@ for i in days_selected:
         print("\n Rep: ",j)
         model_nn = create_model(layers,size,data_to_use.shape[1] - 2,seeds[j])
         storia = model_nn.fit(x = x_train, y = y_train, batch_size = 64 , epochs = 1000, validation_data=(x_val,y_val), verbose =0, 
-                   callbacks = callbacks.EarlyStopping(monitor ="val_mean_squared_error", min_delta =0, patience =4))
+                   callbacks = callbacks.EarlyStopping(monitor ="val_mean_squared_error", min_delta =0, patience =2))
 
         #Salvare le metriche per scegliere il seed migliore.
         models_reps.append(min(storia.history["val_mean_squared_error"]))
