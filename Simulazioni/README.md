@@ -83,7 +83,7 @@ Vengono quindi prodotti 100 dataset e salvati nella cartella "pyData". Adesso ch
 La riga in cui specificare i percorsi è la seguente:
 "srun singularity exec --env-file 'percorso a env_file' 'percorso a pythonImageCPU.sif' python ..."
 
-Una volta fatto la simulazione può essere lanciata tramite "sbatch simulationsPy.sh" I risultati vengono creati un po' alla volta nella cartella "sim.out", e vanno ad aggiungersi a quelli già presenti provenienti dagli altri modelli.
+Una volta fatto la simulazione può essere lanciata tramite "sbatch simulationsPy.sh" I risultati vengono creati un po' alla volta nella cartella "sim.out", e vanno ad aggiungersi a quelli già presenti provenienti dagli altri modelli. A differenza degli altri modelli, i risultati sono in formato ".feather", in modo da permettere ad R di leggerli, il linguaggio con cui sono fatte le elaborazioni ulteriori.
 
 # SINTETIZZARE I RISULTATI E PRODURRE I GRAFICI #
 I risultati ottenuti sono separati in un grande insieme di oggetti, 2 per ciascun modello e replicazione, separati nelle cartelle "sim.out/models" e "sim.out/results".
