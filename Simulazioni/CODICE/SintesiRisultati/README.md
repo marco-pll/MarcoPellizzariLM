@@ -31,7 +31,13 @@ Per farlo, nella prima parte elabora i risultati delle simulazioni. Non si basa 
 Una parte finale produce invece il grafico riportato nel riassunto del capitolo 3, che riporta la distribuzione delle differenze nel terzo quartile tra RF e NN. Può essere facilmente modificato per mostrare la distribuzione delle differenze tra altri modelli.
 
 ### SLURM_qMSE_Plots.R
-Produce gli andamenti degli MSE mediani e del terzo quartile dell'MSE. Utilizza i risultati di "SLURM_Post_Sim_Synt.R", e quindi va utilizzato in un momento successivo.
+Questo script permette di produrre i grafici degli andamenti degli MSE mediani (ed eventualmente di altri quartili).
+
+La prima parte dello script permette il calcolo degli andamenti degli MSE mediani. Per farlo, è necessario collocarsi nella directory contenente i risultati (sim.out). Lo script produce quindi il grafico.
+
+La seconda parte dello script permette di il calcolo degli andamenti del terzo quartile dell'MSE. Perché funzioni è necessario mandare le librerie e le variabili iniziali: è pensato per andare subito dopo alla prima parte.
+
+La terza parte permette di selezionare una specifica replicazione, e confrontare i tracciati dell'MSE mediano, per i diversi modelli, e del terzo quartile dell'MSE.
 
 
 
