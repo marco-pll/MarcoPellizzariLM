@@ -1,6 +1,6 @@
 # ANALISI SU DATASET REALI #
 
-Questa cartella contiene i dati utilizzati e il codice relativi alle analisi del capitolo 2: la cartella "EnvironForCompactSimulations" contiene l'environment utilizzato per produrre i risultati (renv), il codice e i risultati stessi.
+Questa cartella contiene i dati utilizzati e il codice relativi alle analisi del capitolo 2: la cartella "EnvironForCompactSimulations" contiene l'environment utilizzato per produrre i risultati (renv), i dati puliti, il codice e i risultati stessi.
 
 I file disponibili sono i seguenti: 
 -  La cartella "HOSPITAL DATA/HospitalDataDefinitivo.zip" contiene i dati utilizzati nel capitolo, su cui è applicato il "test" di degradazione temporale. Contengono perciò tutte le variabili definite. I dati originali sono disponibili al seguente link: https://medicalanalytics.group/operational-data-challenge/ (visitato l'ultima volta il 16/04/2024).
