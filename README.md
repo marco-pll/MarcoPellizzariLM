@@ -7,6 +7,6 @@ La cartella "Simulazioni" contiene ciò che riguarda i capitoli 3, 4 e 5, i codi
 
 Il documento "Pellizzari_Marco.pdf" contiene invece l'elaborato finale.
 
-I risultati stessi non sono riportati in questo archivio, richiedendo troppa memoria. Le procedura indicate dovrebbero comunque permettere di produrre esattamente i risultati riportati nel lavoro. In caso di problemi nell'utilizzo dei codici utilizzare il contatto riportato in cima.
+I risultati stessi non sono riportati qui, richiedendo troppo spazio. Le procedure indicate dovrebbero comunque permettere di produrre esattamente i risultati riportati nel lavoro. In caso di problemi nell'utilizzo dei codici utilizzare il contatto riportato in cima.
 
 
